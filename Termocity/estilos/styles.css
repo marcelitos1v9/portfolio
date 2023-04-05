@@ -1,3 +1,13 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.fixed-bottom {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
 .bg-purple{
     background-color: #7b1fa2;
     color: white;
