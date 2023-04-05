@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Termocity</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="estilos/styles.css">
+</head>
+
+<body>
+    <div class="container-fluid p-5 bg-purple">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Termocity</h1>
+                <p class="lead">Digite o nome da cidade para obter informações de tempo</p>
+
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select class="form-control" id="estado" onchange="getCidades()">
+                        <option value="">Selecione um estado</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+
+                <form>
+                    <div class="form-group">
+                        <label for="cidade">Cidade:</label>
+                        <select class="form-control" id="city-input">
+                            <option value="">Selecione um estado primeiro</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-outline-light">Obter Temperatura</button>
+                </form>
+            </div>
+            <div class="col-md-6  mt-3">
+                <h2>Informações de climáticas</h2>
+                <div class="mt-2">
+                <p>Localização: <span id="location"></span></p>
+                <p>Temperatura: <span id="temp"></span></p>
+                <p>Condições climáticas: <span id="conditions"></span></p>
+                <p>Umidade do ar: <span id="humidity"></span></p>
+                <p>Velocidade do vento: <span id="wind"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Como funciona?</h2>
+                <p>Insira o nome da cidade no campo de busca e clique no botão "Obter Temperatura". Em seguida, a
+                    temperatura atual
+                    da cidade será exibida.</p>
+            </div>
+            <div class="col-sm-4">
+                <h2>Recursos adicionais</h2>
+                <p>O site oferece informações adicionais, como previsão do tempo, umidade do ar, velocidade do vento e
+                    outras informações úteis para quem deseja se manter informado sobre as condições climáticas da
+                    cidade.</p>
+            </div>
+            <div class="col-sm-4">
+                <h2>Sobre nós</h2>
+                <p>Sou um desenvolvedor apaixonado por clima e tecnologia, e nossa missão é fornecer informações
+                    precisas e atualizadas sobre as condições climáticas das cidades do Brasil e do mundo.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer fixed-bottom  bg-dark text-light p-3">
+        <div class="container ">
+            <div class="text-center">
+                <ul class="list-inline social-icons">
+                    <li class="list-inline-item">
+                        <a href="https://github.com/marcelitos1v9" target="_blank">
+                            <i class="fa-brands fa-github fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/marceloaugusto_oo/" target="_blank">
+                            <i class="fa-brands fa-instagram fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="mailto:marceloaugustocge@gmail.com" target="_blank">
+                            <i class="fa-solid fa-envelope fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div>
+                    <p>&copy; Marcelo Augusto 2023 Todos os direitos reservados</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        const apiKey = '7471f67d0c2aff318a8855c9ab187ebb';
+        const apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=';
+        function getCidades() {
+            const estado = document.getElementById("estado").value;
+            const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estado}/municipios`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(cidades => {
+                    const selectCidade = document.getElementById("city-input");
+                    selectCidade.innerHTML = "<option value=''>Selecione uma cidade</option>";
+                    cidades.forEach(cidade => {
+                        const option = document.createElement("option");
+                        option.value = cidade.nome;
+                        option.innerText = cidade.nome;
+                        selectCidade.appendChild(option);
+                    });
+
+
+                })
+                .catch(error => console.error(error));
+        }
+
+
+        const form = document.querySelector('form');
+        const cityInput = document.querySelector('#city-input');
+        const tempDisplay = document.querySelector('#temp');
+        const conditionsDisplay = document.querySelector('#conditions');
+        const locationDisplay = document.querySelector('#location');
+        const humidityDisplay = document.querySelector('#humidity');
+        const windDisplay = document.querySelector('#wind');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const city = cityInput.value;
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=pt_br`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    tempDisplay.textContent = `${data.main.temp} °C`;
+                    conditionsDisplay.textContent = data.weather[0].description;
+                    locationDisplay.textContent = data.name;
+                    humidityDisplay.textContent = `${data.main.humidity} %`;
+                    windDisplay.textContent = `${data.wind.speed} m/s`;
+                })
+                .catch(error => console.error(error));
+        });
+
+    </script>
+</body>
+
+</html>

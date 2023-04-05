@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Área da Empresa</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-dark text-light">
+  <nav class="navbar navbar-expand-md" style="background-color: #28a745;">
+    <a class="navbar-brand text-light" href="#">Nome da Empresa</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link text-light" href="#">Pacotes ativos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#">Rendimento mensal</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#">Rendimento anual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#">Adicionar pacote</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container my-4 text-light">
+    <h1 >Pacotes ativos</h1>
+    <hr>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card my-3">
+          <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Imagem do pacote">
+          <div class="card-body text-dark">
+            <h5 class="card-title">Pacote 1</h5>
+            <p class="card-text">Descrição do pacote 1</p>
+            <a href="#" class="btn btn-primary" style="width: 49%;">Editar</a>
+            <a href="#" class="btn btn-danger" style="width: 49%;">Excluir</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card my-3">
+          <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Imagem do pacote">
+          <div class="card-body text-dark">
+            <h5 class="card-title">Pacote 2</h5>
+            <p class="card-text">Descrição do pacote 2</p>
+            <a href="#" class="btn btn-primary" style="width: 49%;">Editar</a>
+            <a href="#" class="btn btn-danger" style="width: 49%;">Excluir</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card my-3">
+          <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Imagem do pacote">
+          <div class="card-body text-dark">
+            <h5 class="card-title ">Pacote 3</h5>
+                <p class="card-text">Descrição do pacote 3</p>
+                <a href="#" class="btn btn-primary" style="width: 49%;">Editar</a>
+                <a href="#" class="btn btn-danger" style="width: 49%;">Excluir</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <h1 class="my-4">Rendimento mensal</h1>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card my-3">
+              <div class="card-body text-dark">
+                <h5 class="card-title">Rendimento deste mês</h5>
+                <p class="card-text">R$ 10.000,00</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card my-3">
+              <div class="card-body text-dark">
+                <h5 class="card-title">Rendimento médio por pacote</h5>
+                <p class="card-text">R$ 1.000,00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <h1 class="my-4">Rendimento anual</h1>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card my-3">
+              <div class="card-body text-dark">
+                <h5 class="card-title">Rendimento deste ano</h5>
+                <p class="card-text">R$ 120.000,00</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card my-3">
+              <div class="card-body text-dark">
+                <h5 class="card-title">Rendimento médio mensal</h5>
+                <p class="card-text">R$ 10.000,00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <h1 class="my-4">Adicionar pacote</h1>
+        <hr>
+        <form>
+          <div class="form-group text-light">
+            <label for="nome-pacote">Nome do pacote</label>
+            <input type="text" class="form-control" id="nome-pacote" placeholder="Digite o nome do pacote">
+          </div>
+          <div class="form-group">
+            <label for="descricao-pacote">Descrição do pacote</label>
+            <textarea class="form-control" id="descricao-pacote" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="imagem-pacote">Imagem do pacote</label>
+            <input type="file" class="form-control-file" id="imagem-pacote">
+          </div>
+          <button type="submit" class="btn btn-success text-center">Adicionar</button>
+        </form>
+    </div>
+    <!-- Scripts do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+  </html>        

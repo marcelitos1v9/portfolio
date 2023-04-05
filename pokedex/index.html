@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Pokedex</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-dark">
+  <div class="container mt-8 pb-5">
+    <div class="row">
+      <div class="col-12 col-md-6 offset-md-3 text-center">
+        <h1 class="mb-3 mt-3 text-light">Pokedex</h1>
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" placeholder="Nome ou id do Pokemon" class="form-control" id="pokemon-input">
+            <div class="input-group-append">
+              <button class="btn btn-warning" type="button" id="search-btn">Pesquisar</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="pokemon-info"></div>
+        <div class="mt-1">
+          <button type="button" class="btn btn-danger col-5" id="prev-btn">Anterior</button>
+          <button type="button" class="btn btn-danger col-5" id="next-btn">Próximo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcelo Augusto</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css"
+        integrity="sha512-9YHSK59/rjvhtDcY/b+4rdnl0V4LPDWdkKceBl8ZLF5TB6745ml1AfluEU6dFWqwDw9lPvnauxFgpKvJqp7jiQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .overflow-auto {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            max-width: 100%;
+            min-width: 0;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            filter: brightness(90%);
+           
+            color: #212529;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg p-0 navbar-light bg-light fixed-top mx-auto d-flex justify-content-center">
+        <div class="navbar " id="navbarNav">
+            <ul class="navbar-nav row flex-row">
+                <li class="nav-item col">
+                    <a class="nav-link" href="#sobre">Sobre</a>
+                </li>
+                <li class="nav-item col">
+                    <a class="nav-link" href="#projetos">Projetos</a>
+                </li>
+                <li class="nav-item col">
+                    <a class="nav-link" href="#tecnologias">Tecnologias</a>
+                </li>
+                <li class="nav-item col">
+                    <a class="nav-link" href="#contato">Contato</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <section id="sobre" class="py-5">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6 m-auto">
+                    <h2>Sobre mim</h2>
+                    <p>Olá, meu nome é Marcelo Augusto e sou um desenvolvedor de software apaixonado por tecnologia e
+                        inovação. Estou sempre
+                        buscando novos desafios para aprimorar minhas habilidades e entregar soluções de alta qualidade
+                        em meus projetos.</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="img\perfil.jpeg" alt="Foto de perfil" class="img-fluid rounded-circle">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projetos" class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 class="p-3">Meus projetos</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <img src="img\tani.png" alt="Projeto 1" class="card-img-top">
+                        <h5 class="card-title">Projeto Tani</h5>
+                        <div class="card-body">
+                            <p class="card-text">Em busca de trazer mais turismo ao vale do ribeira</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="novo\index.html" target="_blank" class="btn btn-dark wid100">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <i class="fa-solid fa-cloud-sun-rain fa-8x p-3"></i>
+                        <h5 class="card-title">Termocity</h5>
+                        <div class="card-body overflow-auto">
+                            <p class="card-text">Este é um projeto web chamado "Termocity" que fornece informações
+                                climáticas precisas e atualizadas para qualquer cidade do Brasil. O usuário insere o
+                                nome da cidade no campo de busca e clica no botão "Obter Temperatura". A temperatura
+                                atual, condições climáticas, umidade do ar, velocidade do vento e outras informações
+                                úteis são exibidas para o usuário em tempo real. Além disso, o site oferece informações
+                                adicionais, como previsão do tempo, para quem deseja se manter informado sobre as
+                                condições climáticas da cidade. O projeto utiliza as tecnologias HTML, CSS, Bootstrap e
+                                JavaScript para criar uma interface de usuário atraente e responsiva. </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="Termocity/index.html" target="_blank"
+                                class="btn btn-dark col-12 fixed-card-bottom">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <!-- <i class="fas fa-paw fa-flip-horizontal fa-8x p-3"></i> -->
+                        <!-- <i class="fa-solid fa-game-console-handheld fa-8x p-3"></i> -->
+                        <i class="fa-sharp fa-solid fa-otter fa-8x p-3"></i>
+                        <h5 class="card-title">Pokedex</h5>
+                        <div class="card-body overflow-auto">
+                            <p class="card-text">A Pokedex é um aplicativo web desenvolvido com HTML, CSS e JavaScript,
+                                que utiliza a API pública do PokeAPI para obter informações sobre os Pokemons. Com a
+                                Pokedex, é possível pesquisar informações sobre um Pokemon por nome ou ID, exibindo
+                                detalhes como nome, ID, tipo, altura e peso. A interface do usuário é simples e
+                                intuitiva, contando com um campo de busca e botões para navegar pelos Pokemons. A
+                                Pokedex é responsiva, podendo ser utilizada em dispositivos móveis e desktops.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="pokedex/index.html" target="_blank"
+                                class="btn btn-dark col-12 fixed-card-bottom">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="tecnologias" class="py-5">
+        <div class="container text-center">
+            <h2 class="p-3">Tecnologias front-end</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <i class="fa-brands fa-html5 fa-8x p-3"></i>
+                        <h5 class="card-title">Html</h5>
+                        <div class="card-body overflow-auto">
+                            <p class="card-text">O HTML é uma linguagem de marcação que é usada para criar conteúdo
+                                estruturado e semântico na web. HTML significa "Hypertext Markup Language" (Linguagem de
+                                Marcação de Hipertexto) e é a base de praticamente todos os sites da internet.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="projeto1 UNES\index.html" target="_blank"
+                                class="btn btn-dark col-12 fixed-card-bottom">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <i class="fa-brands fa-8x  fa-css3-alt p-3"></i>
+                        <h5 class="card-title">CSS</h5>
+                        <div class="card-body overflow-auto">
+                            <p class="card-text">O CSS, ou "Cascading Style Sheets" (Folhas de Estilo em Cascata), é uma
+                                linguagem de estilo que é usada em conjunto com o HTML para adicionar estilo e
+                                formatação a uma página web. O CSS permite que os desenvolvedores especifiquem como o
+                                conteúdo HTML deve ser apresentado na página, controlando coisas como cores, fontes,
+                                layout e muito mais..</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="redes brilhante\index.html" target="_blank"
+                                class="btn btn-dark col-12 fixed-card-bottom">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <i class="fa-brands fa-js fa-8x p-3"></i>
+                        <h5 class="card-title">Javascript</h5>
+                        <div class="card-body overflow-auto">
+                            <p class="card-text">JavaScript é uma linguagem de programação de alto nível, interpretada e
+                                orientada a objetos. É frequentemente usada para criar páginas da web interativas e
+                                dinâmicas, além de aplicativos web e móveis. JavaScript é executado nos navegadores dos
+                                usuários e permite a manipulação do conteúdo da página em tempo real, interação com o
+                                usuário e validação de formulários. </p>
+
+                        </div>
+                        <div class="card-footer">
+                            <a href="calc_javascript\index.html" target="_blank"
+                                class="btn btn-dark col-12 fixed-card-bottom">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 class="p-3">Tecnologias back-end</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <i class="fa-brands fa-python fa-8x p-3"></i>
+                        <h5 class="card-title">Python</h5>
+                        <div class="card-body overflow-auto">
+                            <p class="card-text">Python é uma linguagem de programação de alto nível, interpretada e
+                                orientada a objetos, que é amplamente utilizada em uma variedade de aplicações,
+                                incluindo desenvolvimento de software, ciência de dados, inteligência artificial,
+                                automação de tarefas e muito mais. </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="https://www.python.org/" target="_blank"
+                                class="btn btn-dark col-12 fixed-card-bottom">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <i class="fa-brands fa-php fa-8x p-3"></i>
+                        <h5 class="card-title">PHP</h5>
+                        <div class="card-body overflow-auto">
+                            <p class="card-text">PHP (Hypertext Preprocessor) é uma linguagem de programação de código
+                                aberto especialmente adequada para o desenvolvimento de aplicativos da web. Com PHP, é
+                                possível criar sites dinâmicos e interativos, gerar conteúdo dinamicamente, gerenciar
+                                bancos de dados e manipular arquivos. Ele é muito popular entre os desenvolvedores
+                                devido à sua simplicidade, flexibilidade e facilidade de uso, além de ser amplamente
+                                suportado pela maioria dos sistemas operacionais e servidores da web.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="revisao\index.php" target="_blank"
+                                class="btn btn-dark col-12 fixed-card-bottom">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card card37">
+                        <i class="fa-solid fa-database fa-8x p-3"></i>
+                        <h5 class="card-title">SQL</h5>
+                        <div class="card-body overflow-auto">
+                            <p class="card-text">SQL (Structured Query Language) é uma linguagem de programação usada
+                                para gerenciar e manipular dados em um banco de dados relacional. Ela é usada para
+                                criar, modificar e consultar dados em bancos de dados relacionais, que são usados para
+                                armazenar informações em tabelas com relações entre si. </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="https://learn.microsoft.com/pt-br/sql/?view=sql-server-ver16" target="_blank"
+                                class="btn btn-dark col-12 fixed-card-bottom">Veja mais</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contato" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center">Entre em contato</h2>
+            <form>
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensagem">Mensagem</label>
+                    <textarea class="form-control" id="mensagem" name="mensagem" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark">Enviar</button>
+            </form>
+        </div>
+    </section>
+    <footer class="footer bg-dark text-light p-3">
+        <div class="container">
+            <div class="text-center">
+                <ul class="list-inline social-icons">
+                    <li class="list-inline-item">
+                        <a href="https://github.com/marcelitos1v9" target="_blank">
+                            <i class="fa-brands fa-github fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/marceloaugusto_oo/" target="_blank">
+                            <i class="fa-brands fa-instagram fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="mailto:marceloaugustocge@gmail.com" target="_blank">
+                            <i class="fa-solid fa-envelope fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <p>&copy; Marcelo Augusto 2023 Todos os direitos reservados</p>
+            </div>
+
+
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('a.nav-link,a.navbar-brand').on('click', function (event) {
+                if (this.hash !== '') {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 2500, function () {
+                        window.location.hash = hash;
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Encontra todos os links da nav-bar
+            var navLinks = $('nav a.nav-link');
+
+            // Função que verifica se o usuário está em uma seção e seleciona o ícone correspondente
+            function checkSection() {
+                // Encontra a seção atual
+                var currentSection = '';
+                $('section').each(function () {
+                    var sectionTop = $(this).offset().top;
+                    var sectionBottom = sectionTop + $(this).outerHeight();
+                    if ($(window).scrollTop() >= sectionTop && $(window).scrollTop() < sectionBottom) {
+                        currentSection = $(this).attr('id');
+                    }
+                });
+
+                // Seleciona o ícone correspondente na nav-bar
+                navLinks.removeClass('active');
+                navLinks.each(function () {
+                    if ($(this).attr('href').slice(1) === currentSection) {
+                        $(this).addClass('active');
+                    }
+                });
+            }
+
+            // Verifica a seção atual quando a página é carregada
+            checkSection();
+
+            // Verifica a seção atual quando a página é rolada
+            $(window).scroll(function () {
+                checkSection();
+            });
+        });    
+    </script>
+</body>
+
+</html>
