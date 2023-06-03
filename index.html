@@ -285,9 +285,7 @@
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>
@@ -341,38 +339,8 @@
                 checkSection();
             });
         });
-        // const messages = ["Marcelo", "front-end", "back-end", "full-stack"];
-        // const spanElement = document.getElementById("sou");
-        // let index = 0;
-
-        // function typeMessage() {
-        //     if (index < messages.length) {
-        //         const message = messages[index];
-        //         spanElement.innerHTML = "";
-        //         spanElement.classList.add("typing-animation");
-
-        //         setTimeout(function () {
-        //             spanElement.classList.remove("typing-animation");
-        //             setTimeout(function () {
-        //                 index++;
-        //                 if (index === messages.length) {
-        //                     index = 0; // Reiniciar a animação quando chegar ao final da lista
-        //                 }
-        //                 typeMessage();
-        //             }, 500); // Tempo de pausa após escrever a mensagem
-        //         }, message.length * 100); // Tempo para escrever a mensagem
-
-        //         for (let i = 0; i < message.length; i++) {
-        //             const charSpan = document.createElement("span");
-        //             charSpan.textContent = message[i];
-        //             spanElement.appendChild(charSpan);
-        //         }
-        //     }
-        // }
-
-        // typeMessage();
         var div = document.getElementById('sou');
-        var textos = ['Marcelo', 'front-end', 'back-end', 'full-stack'];
+        var textos = ['Marcelo!', 'front-end!', 'back-end!', 'full-stack'];
 
         function escrever(str, done) {
             var char = str.split('').reverse();
