@@ -25,7 +25,7 @@
             overflow-y: auto;
             scroll-behavior: smooth;
             filter: brightness(90%);
-           
+
             color: #212529;
         }
     </style>
@@ -55,8 +55,8 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-6 m-auto">
-                    <h2>Sobre mim</h2>
-                    <p>Olá, meu nome é Marcelo Augusto e sou um desenvolvedor de software apaixonado por tecnologia e
+                    <h2 id="msg_eu">Olá,eu sou <span id="sou" class="text-danger"></span></h2>
+                    <p>Sou um desenvolvedor de software apaixonado por tecnologia e
                         inovação. Estou sempre
                         buscando novos desafios para aprimorar minhas habilidades e entregar soluções de alta qualidade
                         em meus projetos.</p>
@@ -340,7 +340,77 @@
             $(window).scroll(function () {
                 checkSection();
             });
-        });    
+        });
+        // const messages = ["Marcelo", "front-end", "back-end", "full-stack"];
+        // const spanElement = document.getElementById("sou");
+        // let index = 0;
+
+        // function typeMessage() {
+        //     if (index < messages.length) {
+        //         const message = messages[index];
+        //         spanElement.innerHTML = "";
+        //         spanElement.classList.add("typing-animation");
+
+        //         setTimeout(function () {
+        //             spanElement.classList.remove("typing-animation");
+        //             setTimeout(function () {
+        //                 index++;
+        //                 if (index === messages.length) {
+        //                     index = 0; // Reiniciar a animação quando chegar ao final da lista
+        //                 }
+        //                 typeMessage();
+        //             }, 500); // Tempo de pausa após escrever a mensagem
+        //         }, message.length * 100); // Tempo para escrever a mensagem
+
+        //         for (let i = 0; i < message.length; i++) {
+        //             const charSpan = document.createElement("span");
+        //             charSpan.textContent = message[i];
+        //             spanElement.appendChild(charSpan);
+        //         }
+        //     }
+        // }
+
+        // typeMessage();
+        var div = document.getElementById('sou');
+        var textos = ['Marcelo', 'front-end', 'back-end', 'full-stack'];
+
+        function escrever(str, done) {
+            var char = str.split('').reverse();
+            var typer = setInterval(function() {
+                if (!char.length) {
+                    clearInterval(typer);
+                    return setTimeout(done, 750); // só para esperar um bocadinho
+                }
+                var next = char.pop();
+                div.innerHTML += next;
+            }, 100);
+        }
+
+        function limpar(done) {
+            var char = div.innerHTML;
+            var nr = char.length;
+            var typer = setInterval(function() {
+                if (nr-- == 0) {
+                    clearInterval(typer);
+                    return done();
+                }
+                div.innerHTML = char.slice(0, nr);
+            }, 100);
+        }
+
+        function rodape(conteudos, el) {
+            var atual = -1;
+            function prox(cb){
+                if (atual < conteudos.length - 1) atual++;
+                else atual = 0;
+                var str = conteudos[atual];
+                escrever(str, function(){
+                    limpar(prox);
+                });
+            }
+            prox(prox);
+        }
+        rodape(textos);
     </script>
 </body>
 
