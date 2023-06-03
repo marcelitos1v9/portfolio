@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css"
         integrity="sha512-9YHSK59/rjvhtDcY/b+4rdnl0V4LPDWdkKceBl8ZLF5TB6745ml1AfluEU6dFWqwDw9lPvnauxFgpKvJqp7jiQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
     <style>
@@ -25,9 +28,77 @@
             overflow-y: auto;
             scroll-behavior: smooth;
             filter: brightness(90%);
-
             color: #212529;
         }
+
+        body {
+      font-family: 'Kanit', sans-serif;
+    }
+
+    nav {
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    #sobre {
+      background-color: #f8f9fa;
+    
+    }
+
+    #sobre img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    #msg_eu {
+      font-size: 28px;
+      color: #212529;
+    }
+
+    #sou {
+      color: #dc3545;
+    }
+
+    #projetos {
+      background-color: #f8f9fa;
+      
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      
+    }
+
+    .card-title {
+      margin-top: 20px;
+    }
+
+    .card-text {
+      text-align: center;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: center;
+    }
+
+    #tecnologias {
+      background-color: #f8f9fa;
+      
+    }
+
+    .card-body {
+      height: 180px;
+    }
+
+
+    #contato {
+      background-color: #f8f9fa;
+      
+    }
     </style>
 
 </head>
@@ -55,7 +126,7 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-6 m-auto">
-                    <h2 id="msg_eu">Olá,eu sou <span id="sou" class="text-danger"></span></h2>
+                    <h2 id="msg_eu" class="text-center mb-3">Olá, eu sou <span id="sou" class="text-danger"></span></h2>
                     <p>Sou um desenvolvedor de software apaixonado por tecnologia e
                         inovação. Estou sempre
                         buscando novos desafios para aprimorar minhas habilidades e entregar soluções de alta qualidade
