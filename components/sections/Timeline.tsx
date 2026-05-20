@@ -121,7 +121,7 @@ function TimelineEntry({
   lang: string
   t: Translations
 }) {
-  const { ref, isVisible } = useInView()
+  const { ref, isVisible } = useInView<HTMLDivElement | HTMLButtonElement>()
   const [expanded, setExpanded] = useState(false)
   const hasDetail = Boolean(entry.detail)
 
