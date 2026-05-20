@@ -178,8 +178,10 @@ export default function About() {
       </div>
 
       <style>{`
-        @media (max-width: 640px) {
-          .about-grid { grid-template-columns: 1fr !important; }
+        @media (max-width: 768px) {
+          .about-grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+        }
+        @media (max-width: 480px) {
           .facts-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>

@@ -1,10 +1,12 @@
 import Navbar from "@/components/layout/Navbar"
+import Footer from "@/components/layout/Footer"
 import StackExplorer from "@/components/stack/StackExplorer"
 import StackPageHeader from "@/components/stack/StackPageHeader"
 
 export const metadata = {
-  title: "Stack — Marcelo Aguiar",
-  description: "Stack técnica de Marcelo Aguiar: GCP, BigQuery, Dataform, Python, Next.js e mais.",
+  title: "Stack",
+  description:
+    "Stack técnica de Marcelo Augusto: GCP, BigQuery, Dataform, Python, TypeScript, Go, Next.js e mais.",
 }
 
 export default function StackPage() {
@@ -24,39 +26,7 @@ export default function StackPage() {
         <StackPageHeader />
         <StackExplorer />
       </main>
-
-      <footer
-        style={{
-          borderTop: "1px solid var(--color-border)",
-          padding: "2rem clamp(1.5rem, 8vw, 8rem)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "var(--font-dm-mono)",
-            fontSize: "0.7rem",
-            letterSpacing: "0.08em",
-            color: "var(--color-muted)",
-          }}
-        >
-          MAA
-        </span>
-        <span
-          style={{
-            fontFamily: "var(--font-dm-mono)",
-            fontSize: "0.7rem",
-            letterSpacing: "0.05em",
-            color: "var(--color-muted)",
-          }}
-        >
-          {new Date().getFullYear()}
-        </span>
-      </footer>
+      <Footer />
     </>
   )
 }

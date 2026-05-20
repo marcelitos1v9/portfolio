@@ -2,14 +2,17 @@
 
 import { useEffect, useRef, useState } from "react"
 
+const HOVER_SELECTOR = "a, button, [role='button'], [data-cursor-hover]"
+
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
   const [isHovering, setIsHovering] = useState(false)
+  const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
-    // Only activate on pointer (mouse) devices
     if (!window.matchMedia("(pointer: fine)").matches) return
+    setEnabled(true)
 
     let mouseX = -100
     let mouseY = -100
@@ -22,20 +25,23 @@ export default function CustomCursor() {
       mouseY = e.clientY
     }
 
-    const onEnter = () => setIsHovering(true)
-    const onLeave = () => setIsHovering(false)
+    // Event delegation: works for dynamically added elements (mobile menu items,
+    // framer-motion remounts, stack list, etc.)
+    const onOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null
+      if (target?.closest?.(HOVER_SELECTOR)) setIsHovering(true)
+    }
+    const onOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null
+      if (target?.closest?.(HOVER_SELECTOR)) setIsHovering(false)
+    }
 
-    const interactives = document.querySelectorAll("a, button, [role='button'], [data-cursor-hover]")
-    interactives.forEach((el) => {
-      el.addEventListener("mouseenter", onEnter)
-      el.addEventListener("mouseleave", onLeave)
-    })
-
-    window.addEventListener("mousemove", onMove)
+    window.addEventListener("mousemove", onMove, { passive: true })
+    document.addEventListener("mouseover", onOver)
+    document.addEventListener("mouseout", onOut)
 
     const loop = () => {
-      const lerp = 0.12
-
+      const lerp = 0.18
       ringX += (mouseX - ringX) * lerp
       ringY += (mouseY - ringY) * lerp
 
@@ -52,19 +58,21 @@ export default function CustomCursor() {
 
     return () => {
       window.removeEventListener("mousemove", onMove)
-      interactives.forEach((el) => {
-        el.removeEventListener("mouseenter", onEnter)
-        el.removeEventListener("mouseleave", onLeave)
-      })
+      document.removeEventListener("mouseover", onOver)
+      document.removeEventListener("mouseout", onOut)
       cancelAnimationFrame(raf)
     }
   }, [])
+
+  if (!enabled) return null
 
   return (
     <>
       {/* Dot — follows cursor directly */}
       <div
         ref={dotRef}
+        data-custom-cursor
+        aria-hidden="true"
         style={{
           position: "fixed",
           top: 0,
@@ -81,6 +89,8 @@ export default function CustomCursor() {
       {/* Ring — lags behind with lerp */}
       <div
         ref={ringRef}
+        data-custom-cursor
+        aria-hidden="true"
         style={{
           position: "fixed",
           top: 0,

@@ -8,7 +8,18 @@ function randomChar() {
   return CHARS[Math.floor(Math.random() * CHARS.length)]
 }
 
-export function useTextScramble(target: string, enabled: boolean = true) {
+/**
+ * Animated text-scramble effect that resolves to `target`.
+ *
+ * - `enabled`: when false, just displays `target` as-is.
+ * - `triggerKey`: bump this (e.g. on language change) to replay the scramble
+ *   without changing the target itself.
+ */
+export function useTextScramble(
+  target: string,
+  enabled: boolean = true,
+  triggerKey: string | number = 0
+) {
   const [display, setDisplay] = useState(target)
   const frameRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -20,6 +31,8 @@ export function useTextScramble(target: string, enabled: boolean = true) {
 
     let iteration = 0
     const totalFrames = target.length * 3
+
+    if (frameRef.current) clearInterval(frameRef.current)
 
     frameRef.current = setInterval(() => {
       setDisplay(
@@ -43,7 +56,7 @@ export function useTextScramble(target: string, enabled: boolean = true) {
     return () => {
       if (frameRef.current) clearInterval(frameRef.current)
     }
-  }, [target, enabled])
+  }, [target, enabled, triggerKey])
 
   return display
 }

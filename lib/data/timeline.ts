@@ -58,10 +58,10 @@ export const timelineData: TimelineEntry[] = [
   },
   {
     year: "2026",
-    label: "Datalake Completo",
-    label_en: "Complete Data Lake",
-    description: "Medallion em produção",
-    description_en: "Medallion in production",
+    label: "Data Lake em produção",
+    label_en: "Data Lake in production",
+    description: "Medallion live · Staging → Gold",
+    description_en: "Medallion live · Staging → Gold",
     detail: "Staging → Bronze → Silver → Gold",
   },
 ]

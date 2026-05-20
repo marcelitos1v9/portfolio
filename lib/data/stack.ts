@@ -3,6 +3,7 @@ export type StackItem = {
   description: string
   description_en: string
   context: string
+  context_en: string
 }
 
 export type StackCategory = {
@@ -23,6 +24,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Primary platform where the entire corporate Data Lake infrastructure resides — from ingestion through analytical consumption across Bronze, Silver, and Gold layers.",
         context: "Compass UOL · Cliente Energia",
+        context_en: "Compass UOL · Energy Client",
       },
       {
         name: "BigQuery",
@@ -31,6 +33,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Columnar data warehouse for large-scale analytical storage and querying. Used with efficient partitioning, clustering, and complex window functions across medallion architecture layers.",
         context: "Compass UOL · Cliente Energia",
+        context_en: "Compass UOL · Energy Client",
       },
       {
         name: "Cloud Run",
@@ -39,6 +42,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Execution of containerized ingestion workers, scaling to zero under no load — enabling serverless processing without infrastructure management.",
         context: "Compass UOL · Cliente Energia",
+        context_en: "Compass UOL · Energy Client",
       },
       {
         name: "Pub/Sub",
@@ -47,6 +51,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Messaging for real-time ingestion events, decoupling producers from consumers and ensuring reliable event delivery between systems.",
         context: "Compass UOL · Cliente Energia",
+        context_en: "Compass UOL · Energy Client",
       },
       {
         name: "Datastream",
@@ -55,6 +60,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "CDC (Change Data Capture) for low-latency relational data replication — integrating sources like SAP ERP and service management platforms into the Data Lake.",
         context: "Compass UOL · Cliente Energia",
+        context_en: "Compass UOL · Energy Client",
       },
       {
         name: "AWS",
@@ -63,6 +69,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Provisioning and maintenance of managed AWS infrastructure. Earned Cloud Practitioner certification during internship at Compass UOL.",
         context: "Compass UOL · Estágio",
+        context_en: "Compass UOL · Internship",
       },
     ],
   },
@@ -77,6 +84,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "SQL transformation orchestration with automatic dependency graph, data quality tests, and lineage documentation across layers. Primary ELT tool in the pipeline.",
         context: "Compass UOL · Cliente Energia",
+        context_en: "Compass UOL · Energy Client",
       },
       {
         name: "SQL (BigQuery dialect)",
@@ -85,6 +93,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Analytical modeling across Bronze → Silver → Gold layers with complex CTEs, window functions, partitions, and incremental load strategies. Domain-based naming conventions.",
         context: "Compass UOL · Cliente Energia",
+        context_en: "Compass UOL · Energy Client",
       },
       {
         name: "JavaScript UDFs",
@@ -93,6 +102,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Business logic that doesn't fit in pure SQL — such as multi-distribution-center FIFO allocation in BigQuery. Migration from spreadsheet solution to serverless execution at scale.",
         context: "Compass UOL · Cliente Energia",
+        context_en: "Compass UOL · Energy Client",
       },
       {
         name: "dbt (conceitos)",
@@ -101,6 +111,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Knowledge of semantic modeling, testing, documentation, and incremental materialization — applied conceptually in orchestration with Dataform.",
         context: "Referência conceitual",
+        context_en: "Conceptual reference",
       },
     ],
   },
@@ -115,6 +126,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Flask APIs with JWT authentication, audio processing with PyTorch U-Net, data automation with Pandas and FastAPI. Primary language for backends and applied ML.",
         context: "CalmWave · separar_audio · Fatec",
+        context_en: "CalmWave · separar_audio · Fatec",
       },
       {
         name: "TypeScript / JavaScript",
@@ -123,6 +135,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "TypeScript in Next.js, React, and Node.js projects. JavaScript for BigQuery UDFs and tooling. Production projects deployed via Vercel.",
         context: "Analise-Moedas-BRL · VVAI · Projetos pessoais",
+        context_en: "Analise-Moedas-BRL · VVAI · Personal projects",
       },
       {
         name: "Go",
@@ -131,6 +144,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "REST inventory management API built in Go — exploring native concurrency, performance, and the language's minimalist approach for high-performance backend services.",
         context: "estoque-api-GO · Projetos pessoais",
+        context_en: "estoque-api-GO · Personal projects",
       },
       {
         name: "Kotlin / Android",
@@ -139,6 +153,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Native mobile development in Kotlin with Jetpack Compose and Kotlin Multiplatform (KMP) — modern Android development and cross-platform code sharing.",
         context: "CalmWave · mergeskillskmp · Fatec",
+        context_en: "CalmWave · mergeskillskmp · Fatec",
       },
       {
         name: "Java / Spring Boot",
@@ -147,6 +162,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Backend APIs with Spring Boot, following enterprise structuring patterns with controllers, services, and repositories. Experience with the Java ecosystem for robust backends.",
         context: "api_spring_boot · Fatec",
+        context_en: "api_spring_boot · Fatec",
       },
       {
         name: "Next.js / React",
@@ -155,6 +171,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Frontend and fullstack with App Router, Server Components, and SSR. Production projects — including this portfolio, CalmWave's admin dashboard, and Analise Moedas BRL.",
         context: "Portfolio · CalmWave · Projetos pessoais",
+        context_en: "Portfolio · CalmWave · Personal projects",
       },
     ],
   },
@@ -169,6 +186,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Relational database for application persistence. Supabase as Backend-as-a-service with integrated auth, realtime, and storage — used in CalmWave for users and session history.",
         context: "CalmWave · Fatec",
+        context_en: "CalmWave · Fatec",
       },
       {
         name: "MongoDB",
@@ -177,6 +195,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Document database for workloads requiring schema flexibility, such as event logs and semi-structured data.",
         context: "Projetos acadêmicos",
+        context_en: "Academic projects",
       },
     ],
   },
@@ -191,6 +210,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Application containerization ensuring portability and consistency across development, staging, and production environments.",
         context: "CalmWave · Projetos internos",
+        context_en: "CalmWave · Internal projects",
       },
       {
         name: "GitHub Actions / CI/CD",
@@ -199,6 +219,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Integration and continuous delivery pipelines for automated deployment. Used in CalmWave for CI/CD on Render and in internal Compass UOL projects.",
         context: "Compass UOL · CalmWave",
+        context_en: "Compass UOL · CalmWave",
       },
       {
         name: "Linux",
@@ -207,6 +228,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Primary environment for cloud development and service operations — shell scripting, process management, and basic system administration.",
         context: "Ambiente de trabalho",
+        context_en: "Work environment",
       },
     ],
   },
@@ -221,6 +243,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Training and inference of a U-Net model for audio noise suppression via spectrograms. Real-time signal processing exposed as a REST API.",
         context: "CalmWave · Fatec",
+        context_en: "CalmWave · Fatec",
       },
       {
         name: "Whisper (ASR)",
@@ -229,6 +252,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "OpenAI's automatic speech recognition (ASR) — applied in transcription experiments and audio processing.",
         context: "Projetos de pesquisa",
+        context_en: "Research projects",
       },
       {
         name: "LLM APIs",
@@ -237,6 +261,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Integration with language model APIs for intelligent automation, content generation, and assistant features in applications.",
         context: "Projetos pessoais",
+        context_en: "Personal projects",
       },
     ],
   },
@@ -251,6 +276,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "AWS cloud computing fundamentals certification covering core services, security, Well-Architected framework, and billing. Obtained during internship at Compass UOL.",
         context: "Amazon Web Services",
+        context_en: "Amazon Web Services",
       },
       {
         name: "Oracle Fusion AI Agent Studio",
@@ -259,6 +285,7 @@ export const stackData: StackCategory[] = [
         description_en:
           "Certification in building AI agents with Oracle Fusion — agent design, API integration, and process automation.",
         context: "Oracle",
+        context_en: "Oracle",
       },
     ],
   },

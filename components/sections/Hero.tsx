@@ -8,14 +8,15 @@ export default function Hero() {
   const [mounted, setMounted] = useState(false)
   const [lineVisible, setLineVisible] = useState(false)
   const [scrollVisible, setScrollVisible] = useState(true)
-  const scrambledName = useTextScramble("Marcelo Augusto.", mounted)
-  const { t } = useLanguage()
+  const { t, lang } = useLanguage()
+  // Replay scramble whenever the user toggles language.
+  const scrambledName = useTextScramble("Marcelo Augusto.", mounted, lang)
 
   useEffect(() => {
     setMounted(true)
     const t1 = setTimeout(() => setLineVisible(true), 400)
     const onScroll = () => {
-      if (window.scrollY > 50) setScrollVisible(false)
+      setScrollVisible(window.scrollY <= 50)
     }
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => {
@@ -30,7 +31,7 @@ export default function Hero() {
         minHeight: "100svh",
         display: "flex",
         alignItems: "center",
-        padding: "0 clamp(1.5rem, 8vw, 8rem)",
+        padding: "calc(var(--header-height) + 1rem) clamp(1.5rem, 8vw, 8rem) 4rem",
         position: "relative",
         zIndex: 1,
       }}
@@ -54,9 +55,10 @@ export default function Hero() {
 
         {/* Animated line */}
         <div
+          aria-hidden="true"
           style={{
             height: 1,
-            background: "var(--color-muted)",
+            background: "var(--color-decorative)",
             transformOrigin: "left",
             transform: lineVisible ? "scaleX(1)" : "scaleX(0)",
             transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -65,8 +67,10 @@ export default function Hero() {
           }}
         />
 
-        {/* Name */}
+        {/* Name — `aria-label` ensures screen readers always read the
+            final text, never the scrambled intermediate frames. */}
         <h1
+          aria-label={t.hero_name_aria}
           style={{
             fontFamily: "var(--font-fraunces)",
             fontSize: "clamp(3rem, 10vw, 8rem)",
@@ -79,7 +83,7 @@ export default function Hero() {
             transition: "opacity 0.6s ease 0.2s",
           }}
         >
-          {scrambledName}
+          <span aria-hidden="true">{scrambledName}</span>
         </h1>
 
         {/* Subtitle */}
@@ -102,41 +106,71 @@ export default function Hero() {
           <span style={{ color: "var(--color-muted)", fontSize: "0.9em" }}>{t.hero_location}</span>
         </p>
 
-        {/* CTA */}
-        <a
-          href="/stack"
-          aria-label={t.hero_cta_aria}
+        {/* CTAs: primary (projects) + secondary (stack) + CV */}
+        <div
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            fontFamily: "var(--font-dm-mono)",
-            fontSize: "0.8rem",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            color: "var(--color-heading)",
-            textDecoration: "none",
-            border: "1px solid var(--color-border)",
-            padding: "0.75rem 1.5rem",
-            transition: "border-color 0.2s, color 0.2s",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.75rem",
             opacity: mounted ? 1 : 0,
-            transitionDelay: "0.6s, 0.6s, 0.6s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "var(--color-accent)"
-            e.currentTarget.style.color = "var(--color-accent)"
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "var(--color-border)"
-            e.currentTarget.style.color = "var(--color-heading)"
+            transition: "opacity 0.6s ease 0.6s",
           }}
         >
-          {t.hero_cta}
-        </a>
+          <a
+            href="#projects"
+            aria-label={t.hero_cta_primary_aria}
+            style={ctaStyle("primary")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "transparent"
+              e.currentTarget.style.color = "var(--color-accent)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "var(--color-accent)"
+              e.currentTarget.style.color = "var(--color-bg)"
+            }}
+          >
+            {t.hero_cta_primary}
+          </a>
+
+          <a
+            href="/stack"
+            aria-label={t.hero_cta_secondary_aria}
+            style={ctaStyle("secondary")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "var(--color-accent)"
+              e.currentTarget.style.color = "var(--color-accent)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "var(--color-border)"
+              e.currentTarget.style.color = "var(--color-heading)"
+            }}
+          >
+            {t.hero_cta_secondary}
+          </a>
+
+          <a
+            href="/cv.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t.hero_cta_cv_aria}
+            download
+            style={ctaStyle("ghost")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--color-heading)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--color-muted)"
+            }}
+          >
+            {t.hero_cta_cv} ↓
+          </a>
+        </div>
       </div>
 
       {/* Scroll indicator */}
       <div
+        className="hero-scroll-indicator"
+        aria-hidden="true"
         style={{
           position: "absolute",
           bottom: "2.5rem",
@@ -147,6 +181,7 @@ export default function Hero() {
           gap: "0.75rem",
           opacity: scrollVisible ? 1 : 0,
           transition: "opacity 0.4s ease",
+          pointerEvents: scrollVisible ? "auto" : "none",
         }}
       >
         <span
@@ -167,13 +202,52 @@ export default function Hero() {
   )
 }
 
+function ctaStyle(variant: "primary" | "secondary" | "ghost"): React.CSSProperties {
+  const base: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    fontFamily: "var(--font-dm-mono)",
+    fontSize: "0.8rem",
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+    textDecoration: "none",
+    padding: "0.85rem 1.5rem",
+    transition: "border-color 0.2s, color 0.2s, background 0.2s",
+    minHeight: 44,
+  }
+
+  if (variant === "primary") {
+    return {
+      ...base,
+      background: "var(--color-accent)",
+      color: "var(--color-bg)",
+      border: "1px solid var(--color-accent)",
+    }
+  }
+  if (variant === "secondary") {
+    return {
+      ...base,
+      color: "var(--color-heading)",
+      border: "1px solid var(--color-border)",
+    }
+  }
+  // ghost
+  return {
+    ...base,
+    color: "var(--color-muted)",
+    border: "1px solid transparent",
+    padding: "0.85rem 0.75rem",
+  }
+}
+
 function ScrollPulse() {
   return (
     <div
       style={{
         width: 1,
         height: 40,
-        background: "var(--color-muted)",
+        background: "var(--color-decorative)",
         animation: "scrollPulse 1.8s ease-in-out infinite",
       }}
     >
@@ -181,6 +255,9 @@ function ScrollPulse() {
         @keyframes scrollPulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.2; }
+        }
+        @media (max-width: 480px) {
+          .hero-scroll-indicator { display: none !important; }
         }
       `}</style>
     </div>

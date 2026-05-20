@@ -1,4 +1,5 @@
 import Navbar from "@/components/layout/Navbar"
+import Footer from "@/components/layout/Footer"
 import Hero from "@/components/sections/Hero"
 import About from "@/components/sections/About"
 import Expertise from "@/components/sections/Expertise"
@@ -18,39 +19,7 @@ export default function Home() {
         <Timeline />
         <Contact />
       </main>
-
-      <footer
-        style={{
-          borderTop: "1px solid var(--color-border)",
-          padding: "2rem clamp(1.5rem, 8vw, 8rem)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "var(--font-dm-mono)",
-            fontSize: "0.7rem",
-            letterSpacing: "0.08em",
-            color: "var(--color-muted)",
-          }}
-        >
-          Marcelo Augusto Aguiar da Cruz
-        </span>
-        <span
-          style={{
-            fontFamily: "var(--font-dm-mono)",
-            fontSize: "0.7rem",
-            letterSpacing: "0.05em",
-            color: "var(--color-muted)",
-          }}
-        >
-          {new Date().getFullYear()}
-        </span>
-      </footer>
+      <Footer />
     </>
   )
 }

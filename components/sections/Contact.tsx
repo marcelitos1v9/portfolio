@@ -72,6 +72,7 @@ export default function Contact() {
         <button
           onClick={copyEmail}
           aria-label={copied ? t.contact_copy_aria_done : t.contact_copy_aria_default}
+          aria-live="polite"
           style={{
             fontFamily: "var(--font-dm-mono)",
             fontSize: "0.8rem",
@@ -79,9 +80,12 @@ export default function Contact() {
             color: copied ? "var(--color-accent)" : "var(--color-heading)",
             background: "none",
             border: `1px solid ${copied ? "var(--color-accent)" : "var(--color-border)"}`,
-            padding: "0.75rem 1.5rem",
+            padding: "0.85rem 1.5rem",
             cursor: "pointer",
             transition: "border-color 0.2s, color 0.2s",
+            minHeight: 44,
+            wordBreak: "break-all",
+            textAlign: "left",
           }}
           onMouseEnter={(e) => {
             if (!copied) e.currentTarget.style.borderColor = "var(--color-accent)"
@@ -95,6 +99,36 @@ export default function Contact() {
 
         <ExternalLink href="https://www.linkedin.com/in/marcelo-augusto-oo/">LinkedIn →</ExternalLink>
         <ExternalLink href="https://github.com/marcelitos1v9">GitHub →</ExternalLink>
+        <a
+          href="/cv.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          download
+          aria-label={t.contact_cv_aria}
+          style={{
+            fontFamily: "var(--font-dm-mono)",
+            fontSize: "0.8rem",
+            letterSpacing: "0.08em",
+            color: "var(--color-accent)",
+            textDecoration: "none",
+            border: "1px solid var(--color-accent)",
+            padding: "0.85rem 1.5rem",
+            transition: "background 0.2s, color 0.2s",
+            display: "inline-flex",
+            alignItems: "center",
+            minHeight: 44,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "var(--color-accent)"
+            e.currentTarget.style.color = "var(--color-bg)"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "transparent"
+            e.currentTarget.style.color = "var(--color-accent)"
+          }}
+        >
+          {t.contact_cv}
+        </a>
       </div>
     </section>
   )
@@ -113,10 +147,11 @@ function ExternalLink({ href, children }: { href: string; children: React.ReactN
         color: "var(--color-body)",
         textDecoration: "none",
         border: "1px solid var(--color-border)",
-        padding: "0.75rem 1.5rem",
+        padding: "0.85rem 1.5rem",
         transition: "border-color 0.2s, color 0.2s",
         display: "inline-flex",
         alignItems: "center",
+        minHeight: 44,
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = "var(--color-accent)"

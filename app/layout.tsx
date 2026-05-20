@@ -2,9 +2,8 @@ import type { Metadata, Viewport } from "next"
 import { Fraunces, DM_Mono, DM_Sans } from "next/font/google"
 import "./globals.css"
 import LenisProvider from "@/components/ui/LenisProvider"
-import CustomCursor from "@/components/ui/CustomCursor"
-import ScrollProgress from "@/components/ui/ScrollProgress"
 import Providers from "@/components/ui/Providers"
+import { personJsonLd, projectsJsonLd } from "@/lib/seo/jsonLd"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://marceloaguiar.dev"
 
@@ -65,6 +64,7 @@ export const metadata: Metadata = {
     url: BASE_URL,
     siteName: "Marcelo Augusto",
     locale: "pt_BR",
+    alternateLocale: ["en_US"],
     type: "website",
   },
   twitter: {
@@ -84,47 +84,23 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: BASE_URL,
+    // Language toggle is client-side (same URLs), so we point both hreflang
+    // values at the canonical URL plus an `x-default` for crawlers that
+    // don't know the locale.
+    languages: {
+      "pt-BR": BASE_URL,
+      en: BASE_URL,
+      "x-default": BASE_URL,
+    },
   },
-}
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Marcelo Augusto Aguiar da Cruz",
-  jobTitle: "Data Engineer",
-  description:
-    "Engenheiro de Dados especializado em arquitetura de dados em GCP com foco em pipelines medallion — BigQuery, Dataform, Cloud Run.",
-  url: BASE_URL,
-  email: "marceloaugustocge@gmail.com",
-  sameAs: [
-    "https://www.linkedin.com/in/marcelo-augusto-oo/",
-    "https://github.com/marcelitos1v9",
-  ],
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Registro",
-    addressRegion: "SP",
-    addressCountry: "BR",
-  },
-  alumniOf: {
-    "@type": "EducationalOrganization",
-    name: "Fatec Registro",
-  },
-  knowsAbout: [
-    "Data Engineering",
-    "Google Cloud Platform",
-    "BigQuery",
-    "Dataform",
-    "Medallion Architecture",
-    "Python",
-    "TypeScript",
-    "Go",
-  ],
 }
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const person = personJsonLd(BASE_URL)
+  const projects = projectsJsonLd(BASE_URL)
+
   return (
     <html
       lang="pt-BR"
@@ -133,16 +109,18 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }}
+        />
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(projects) }}
         />
       </head>
       <body>
         <LenisProvider>
-          <CustomCursor />
-          <ScrollProgress />
-          <Providers>
-            {children}
-          </Providers>
+          <Providers>{children}</Providers>
         </LenisProvider>
       </body>
     </html>

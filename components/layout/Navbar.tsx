@@ -3,15 +3,19 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { AnimatePresence, motion } from "framer-motion"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { useLenis } from "@/components/ui/LenisProvider"
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const { lang, setLang, t } = useLanguage()
+  const lenis = useLenis()
 
   const LINKS = [
+    { href: "/#projects", label: t.nav_projects },
     { href: "/stack", label: t.nav_stack },
     { href: "/#contact", label: t.nav_contact },
     { href: "https://www.linkedin.com/in/marcelo-augusto-oo/", label: "LinkedIn", external: true },
@@ -20,6 +24,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
+    onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
@@ -30,10 +35,27 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", onKey)
   }, [])
 
+  // Lock scroll when mobile menu is open. Use Lenis stop() because Lenis
+  // keeps a virtualized scroll loop; setting body.overflow=hidden alone
+  // doesn't actually freeze the page.
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : ""
-    return () => { document.body.style.overflow = "" }
-  }, [open])
+    if (open) {
+      lenis?.stop()
+      document.body.style.overflow = "hidden"
+    } else {
+      lenis?.start()
+      document.body.style.overflow = ""
+    }
+    return () => {
+      lenis?.start()
+      document.body.style.overflow = ""
+    }
+  }, [open, lenis])
+
+  // Close menu on route change (e.g. /stack → /)
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   return (
     <>
@@ -50,19 +72,19 @@ export default function Navbar() {
           alignItems: "center",
           justifyContent: "space-between",
           transition: "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
-          background:
-            scrolled || open ? "rgba(13,13,13,0.95)" : "transparent",
+          background: scrolled || open ? "rgba(13,13,13,0.95)" : "transparent",
           backdropFilter: scrolled || open ? "blur(12px)" : "none",
+          WebkitBackdropFilter: scrolled || open ? "blur(12px)" : "none",
           borderBottom:
             scrolled || open
               ? "1px solid var(--color-border)"
               : "1px solid transparent",
         }}
       >
-        {/* Logo */}
         <Link
           href="/"
           onClick={() => setOpen(false)}
+          aria-label="Ir para o início"
           style={{
             fontFamily: "var(--font-dm-mono)",
             fontSize: "0.875rem",
@@ -76,14 +98,9 @@ export default function Navbar() {
           MAA
         </Link>
 
-        {/* Desktop nav */}
         <nav
           aria-label="Navegação principal"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "2rem",
-          }}
+          style={{ display: "flex", alignItems: "center", gap: "2rem" }}
           className="nav-desktop"
         >
           {LINKS.map((link) =>
@@ -120,7 +137,6 @@ export default function Navbar() {
             )
           )}
 
-          {/* Language toggle */}
           <button
             onClick={() => setLang(lang === "pt" ? "en" : "pt")}
             aria-label={lang === "pt" ? "Switch to English" : "Mudar para Português"}
@@ -137,10 +153,10 @@ export default function Navbar() {
           </button>
         </nav>
 
-        {/* Mobile hamburger */}
         <button
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
           style={{
             background: "none",
@@ -150,7 +166,10 @@ export default function Navbar() {
             display: "none",
             flexDirection: "column",
             gap: 5,
-            minHeight: "auto",
+            minHeight: 44,
+            minWidth: 44,
+            justifyContent: "center",
+            alignItems: "center",
           }}
           className="nav-hamburger"
         >
@@ -160,84 +179,102 @@ export default function Navbar() {
         </button>
       </header>
 
-      {/* Mobile menu overlay */}
-      {open && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 99,
-            background: "rgba(13,13,13,0.98)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: "0 clamp(1.5rem, 8vw, 4rem)",
-            paddingTop: 64,
-          }}
-          aria-modal="true"
-          role="dialog"
-          aria-label="Menu de navegação"
-        >
-          <nav style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-            {LINKS.map((link, i) =>
-              link.external ? (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setOpen(false)}
-                  style={{
-                    ...mobileNavStyle,
-                    animationDelay: `${i * 60}ms`,
-                    borderBottom: "1px solid var(--color-border)",
-                  }}
-                >
-                  {link.label} ↗
-                </a>
-              ) : (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  style={{
-                    ...mobileNavStyle,
-                    animationDelay: `${i * 60}ms`,
-                    borderBottom: "1px solid var(--color-border)",
-                  }}
-                >
-                  {link.label}
-                </Link>
-              )
-            )}
-
-            {/* Language toggle in mobile menu */}
-            <button
-              onClick={() => { setLang(lang === "pt" ? "en" : "pt"); setOpen(false) }}
-              style={{
-                ...mobileNavStyle,
-                animationDelay: `${LINKS.length * 60}ms`,
-                borderBottom: "1px solid var(--color-border)",
-                background: "none",
-                textAlign: "left",
-                cursor: "pointer",
-                color: "var(--color-accent)",
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 99,
+              background: "rgba(13,13,13,0.98)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              padding: "calc(64px + env(safe-area-inset-top)) clamp(1.5rem, 8vw, 4rem) env(safe-area-inset-bottom)",
+              overflowY: "auto",
+            }}
+            aria-modal="true"
+            role="dialog"
+            aria-label="Menu de navegação"
+          >
+            <motion.nav
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={{
+                hidden: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
+                visible: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } },
               }}
+              style={{ display: "flex", flexDirection: "column", gap: 0 }}
             >
-              {lang === "pt" ? "English" : "Português"}
-            </button>
-          </nav>
-        </div>
-      )}
+              {LINKS.map((link) => {
+                const itemVariants = {
+                  hidden: { opacity: 0, x: -16 },
+                  visible: { opacity: 1, x: 0 },
+                }
+                return link.external ? (
+                  <motion.a
+                    key={link.href}
+                    variants={itemVariants}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setOpen(false)}
+                    style={{ ...mobileNavStyle, borderBottom: "1px solid var(--color-border)" }}
+                  >
+                    {link.label} ↗
+                  </motion.a>
+                ) : (
+                  <motion.div
+                    key={link.href}
+                    variants={itemVariants}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      style={{ ...mobileNavStyle, borderBottom: "1px solid var(--color-border)" }}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                )
+              })}
+
+              <motion.button
+                variants={{ hidden: { opacity: 0, x: -16 }, visible: { opacity: 1, x: 0 } }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                onClick={() => {
+                  setLang(lang === "pt" ? "en" : "pt")
+                  setOpen(false)
+                }}
+                style={{
+                  ...mobileNavStyle,
+                  borderBottom: "1px solid var(--color-border)",
+                  background: "none",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  color: "var(--color-accent)",
+                  width: "100%",
+                }}
+              >
+                {lang === "pt" ? "English" : "Português"}
+              </motion.button>
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
           .nav-hamburger { display: flex !important; }
-        }
-        @keyframes slideIn {
-          from { opacity: 0; transform: translateX(-12px); }
-          to   { opacity: 1; transform: translateX(0); }
         }
       `}</style>
     </>
@@ -263,7 +300,6 @@ const mobileNavStyle: React.CSSProperties = {
   textDecoration: "none",
   padding: "1.25rem 0",
   display: "block",
-  animation: "slideIn 0.3s ease both",
   minHeight: "auto",
 }
 

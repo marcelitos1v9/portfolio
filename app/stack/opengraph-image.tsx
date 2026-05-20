@@ -1,12 +1,10 @@
 import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
-export const alt = "Marcelo Augusto — Data Engineer & Full Stack Developer"
+export const alt = "Marcelo Augusto — Stack técnica"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
-// The descriptor strings here lean on tech terms that read the same in
-// PT and EN so the same image works for both audiences.
 export default function OgImage() {
   return new ImageResponse(
     (
@@ -31,7 +29,6 @@ export default function OgImage() {
           }}
         />
 
-        {/* Accent line top */}
         <div
           style={{
             position: "absolute",
@@ -43,7 +40,6 @@ export default function OgImage() {
           }}
         />
 
-        {/* Label */}
         <div
           style={{
             fontFamily: "monospace",
@@ -55,13 +51,12 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          DATA ENGINEER · FULL STACK · AI
+          /STACK · MARCELO AUGUSTO
         </div>
 
-        {/* Name */}
         <div
           style={{
-            fontSize: 80,
+            fontSize: 88,
             fontWeight: 300,
             color: "#F0F0F0",
             lineHeight: 1,
@@ -69,23 +64,47 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          Marcelo Augusto.
+          Stack técnica.
         </div>
 
-        {/* Description — tech-term-only, language-neutral */}
         <div
           style={{
-            fontSize: 22,
-            color: "#C2C2C2",
-            lineHeight: 1.6,
-            maxWidth: 760,
             display: "flex",
+            flexWrap: "wrap",
+            gap: 14,
+            maxWidth: 1000,
           }}
         >
-          GCP · BigQuery · Dataform · Medallion Architecture · Python · TypeScript · Go
+          {[
+            "GCP",
+            "BigQuery",
+            "Dataform",
+            "Pub/Sub",
+            "Cloud Run",
+            "Python",
+            "PyTorch",
+            "TypeScript",
+            "Next.js",
+            "Go",
+            "Kotlin",
+            "Docker",
+          ].map((tag) => (
+            <div
+              key={tag}
+              style={{
+                fontFamily: "monospace",
+                fontSize: 18,
+                color: "#C2C2C2",
+                border: "1px solid #3A3A3A",
+                padding: "8px 16px",
+                display: "flex",
+              }}
+            >
+              {tag}
+            </div>
+          ))}
         </div>
 
-        {/* Bottom URL */}
         <div
           style={{
             position: "absolute",
@@ -98,10 +117,9 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          marceloaguiar.dev
+          marceloaguiar.dev/stack
         </div>
 
-        {/* Left border accent */}
         <div
           style={{
             position: "absolute",

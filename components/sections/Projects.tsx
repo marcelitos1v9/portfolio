@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { useInView } from "@/hooks/useInView"
 import { projectsData, type ProjectEntry } from "@/lib/data/projects"
 import { useLanguage } from "@/contexts/LanguageContext"
@@ -13,6 +14,7 @@ export default function Projects() {
 
   return (
     <section
+      id="projects"
       style={{
         padding: "clamp(5rem, 12vw, 10rem) clamp(1.5rem, 8vw, 8rem)",
         position: "relative",
@@ -77,34 +79,34 @@ export default function Projects() {
                   background: "none",
                   border: "none",
                   textAlign: "left",
-                  padding: "1.25rem 0",
+                  padding: "1.25rem 0 1.25rem 1rem",
                   borderBottom: "1px solid var(--color-border)",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "baseline",
                   gap: "1rem",
                   transition: "opacity 0.2s",
-                  opacity: isActive ? 1 : 0.45,
+                  opacity: isActive ? 1 : 0.55,
                   position: "relative",
+                  minHeight: 56,
                 }}
                 onMouseEnter={(e) => {
-                  if (!isActive) e.currentTarget.style.opacity = "0.75"
+                  if (!isActive) e.currentTarget.style.opacity = "0.85"
                 }}
                 onMouseLeave={(e) => {
-                  if (!isActive) e.currentTarget.style.opacity = "0.45"
+                  if (!isActive) e.currentTarget.style.opacity = "0.55"
                 }}
               >
                 {/* Active indicator */}
                 {isActive && (
                   <span
+                    aria-hidden="true"
                     style={{
                       position: "absolute",
-                      left: -24,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      width: 4,
-                      height: 4,
-                      borderRadius: "50%",
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: 2,
                       background: "var(--color-accent)",
                     }}
                   />
@@ -191,7 +193,7 @@ function ProjectDetail({
 }: {
   project: ProjectEntry
   lang: string
-  t: { projects_view: string; projects_github: string }
+  t: { projects_view: string; projects_github: string; projects_detail_link: string }
 }) {
   const role = lang === "en" ? project.role_en : project.role
   const context = lang === "en" ? project.context_en : project.context
@@ -292,7 +294,7 @@ function ProjectDetail({
       </ul>
 
       {/* Tags */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: (project.link || project.repo) ? "2rem" : 0 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "2rem" }}>
         {project.tags.map((tag) => (
           <span
             key={tag}
@@ -312,18 +314,41 @@ function ProjectDetail({
       </div>
 
       {/* Links */}
-      {(project.link || project.repo) && (
-        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-          {project.link && (
-            <ProjectLink href={project.link}>{t.projects_view}</ProjectLink>
-          )}
-          {project.repo && (
-            <ProjectLink href={project.repo} muted>
-              {t.projects_github}
-            </ProjectLink>
-          )}
-        </div>
-      )}
+      <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+        <Link
+          href={`/projects/${project.slug}`}
+          style={{
+            fontFamily: "var(--font-dm-mono)",
+            fontSize: "0.75rem",
+            letterSpacing: "0.08em",
+            color: "var(--color-heading)",
+            textDecoration: "none",
+            border: "1px solid var(--color-accent)",
+            padding: "0.5rem 1rem",
+            transition: "background 0.2s, color 0.2s",
+            display: "inline-flex",
+            alignItems: "center",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "var(--color-accent)"
+            e.currentTarget.style.color = "var(--color-bg)"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "transparent"
+            e.currentTarget.style.color = "var(--color-heading)"
+          }}
+        >
+          {t.projects_detail_link}
+        </Link>
+        {project.link && (
+          <ProjectLink href={project.link}>{t.projects_view}</ProjectLink>
+        )}
+        {project.repo && (
+          <ProjectLink href={project.repo} muted>
+            {t.projects_github}
+          </ProjectLink>
+        )}
+      </div>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 export type ProjectEntry = {
   index: string
+  slug: string
   name: string
   role: string
   role_en: string
@@ -18,6 +19,7 @@ export type ProjectEntry = {
 export const projectsData: ProjectEntry[] = [
   {
     index: "01",
+    slug: "calmwave",
     name: "CalmWave",
     role: "Co-fundador · Engenheiro de Software",
     role_en: "Co-founder · Software Engineer",
@@ -48,6 +50,7 @@ export const projectsData: ProjectEntry[] = [
   },
   {
     index: "02",
+    slug: "pipeline-fifo-multi-cd",
     name: "Pipeline FIFO Multi-CD",
     role: "Data Engineer",
     role_en: "Data Engineer",
@@ -76,6 +79,7 @@ export const projectsData: ProjectEntry[] = [
   },
   {
     index: "03",
+    slug: "analise-moedas-brl",
     name: "Analise Moedas BRL",
     role: "Desenvolvedor Full Stack",
     role_en: "Full Stack Developer",
@@ -104,6 +108,7 @@ export const projectsData: ProjectEntry[] = [
   },
   {
     index: "04",
+    slug: "separar-audio",
     name: "separar_audio",
     role: "Engenheiro de ML",
     role_en: "ML Engineer",
@@ -131,6 +136,7 @@ export const projectsData: ProjectEntry[] = [
   },
   {
     index: "05",
+    slug: "estoque-api-go",
     name: "Estoque API (Go)",
     role: "Desenvolvedor Backend",
     role_en: "Backend Developer",
@@ -158,6 +164,7 @@ export const projectsData: ProjectEntry[] = [
   },
   {
     index: "06",
+    slug: "plataforma-imobiliaria",
     name: "Plataforma Imobiliária",
     role: "Gerente de Produto",
     role_en: "Product Manager",
