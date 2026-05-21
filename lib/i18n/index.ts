@@ -55,6 +55,8 @@ const pt = {
   expertise_silver: "Silver",
   expertise_gold: "Gold",
   expertise_try_link: "Rodar pipeline ao vivo →",
+  expertise_tech_validation: "Validação",
+  expertise_tech_partitions: "Partições",
 
   // Timeline
   timeline_label: "Trajetória",
@@ -148,6 +150,8 @@ const en: typeof pt = {
   expertise_silver: "Silver",
   expertise_gold: "Gold",
   expertise_try_link: "Run a live pipeline →",
+  expertise_tech_validation: "Validation",
+  expertise_tech_partitions: "Partitions",
 
   timeline_label: "Career",
   timeline_heading: "Career milestones",

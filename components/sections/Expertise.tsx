@@ -11,8 +11,8 @@ export default function Expertise() {
   const stages = [
     { step: "01", label: t.expertise_ingestion, techs: ["Pub/Sub", "Cloud Run", "CDC"] },
     { step: "02", label: t.expertise_staging, techs: ["Datastream", "GCS", "Raw Zone"] },
-    { step: "03", label: t.expertise_bronze, techs: ["Dataform", "BigQuery", "Validação"] },
-    { step: "04", label: t.expertise_silver, techs: ["SQL UDFs", "Transforms", "Partições"] },
+    { step: "03", label: t.expertise_bronze, techs: ["Dataform", "BigQuery", t.expertise_tech_validation] },
+    { step: "04", label: t.expertise_silver, techs: ["SQL UDFs", "Transforms", t.expertise_tech_partitions] },
     { step: "05", label: t.expertise_gold, techs: ["Mart Tables", "BI Layer", "Output"] },
   ]
 
