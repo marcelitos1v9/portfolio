@@ -9,7 +9,7 @@ const EMAIL = "marceloaugustocge@gmail.com"
 export default function Contact() {
   const [copied, setCopied] = useState(false)
   const { ref, isVisible } = useInView<HTMLElement>()
-  const { t } = useLanguage()
+  const { t, lang } = useLanguage()
 
   const copyEmail = async () => {
     try {
@@ -100,10 +100,9 @@ export default function Contact() {
         <ExternalLink href="https://www.linkedin.com/in/marcelo-augusto-oo/">LinkedIn →</ExternalLink>
         <ExternalLink href="https://github.com/marcelitos1v9">GitHub →</ExternalLink>
         <a
-          href="/cv.pdf"
+          href={`/cv?lang=${lang}`}
           target="_blank"
           rel="noopener noreferrer"
-          download
           aria-label={t.contact_cv_aria}
           style={{
             fontFamily: "var(--font-dm-mono)",

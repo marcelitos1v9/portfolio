@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext"
 import CustomCursor from "@/components/ui/CustomCursor"
 import ScrollProgress from "@/components/ui/ScrollProgress"
 import BackToTop from "@/components/ui/BackToTop"
+import KonamiCode from "@/components/ui/KonamiCode"
 
 /**
  * Single client-side wrapper that owns:
@@ -25,6 +26,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <ScrollProgress />
       <AnimatePresence mode="wait">{children}</AnimatePresence>
       <BackToTop />
+      <KonamiCode />
     </LanguageProvider>
   )
 }

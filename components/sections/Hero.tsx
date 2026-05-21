@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useTextScramble } from "@/hooks/useTextScramble"
 import { useLanguage } from "@/contexts/LanguageContext"
+import HeroParticles from "@/components/ui/HeroParticles"
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false)
@@ -34,9 +35,11 @@ export default function Hero() {
         padding: "calc(var(--header-height) + 1rem) clamp(1.5rem, 8vw, 8rem) 4rem",
         position: "relative",
         zIndex: 1,
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: "900px" }}>
+      <HeroParticles />
+      <div style={{ maxWidth: "900px", position: "relative", zIndex: 1 }}>
         {/* Label */}
         <div
           style={{
@@ -149,11 +152,10 @@ export default function Hero() {
           </a>
 
           <a
-            href="/cv.pdf"
+            href={`/cv?lang=${lang}`}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t.hero_cta_cv_aria}
-            download
             style={ctaStyle("ghost")}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--color-heading)"

@@ -66,12 +66,15 @@ npm run dev
 
 Abre em [http://localhost:3000](http://localhost:3000).
 
-## Assets que você precisa fornecer
+## CV / Currículo
 
-Coloque em `/public`:
+Gerado dinamicamente em `/cv?lang=pt|en` via `@react-pdf/renderer`. Lê
+`lib/data/{projects,timeline,stack}` e i18n direto, então o PDF nunca
+desincroniza do site. Sem arquivo estático em `/public/cv.pdf`.
 
-- `cv.pdf` — currículo apontado pelos botões "Download CV" no Hero e Contact.
-- (Opcional) `favicon.ico` — já existe um padrão Next.
+## Assets opcionais
+
+- `public/favicon.ico` — já existe um padrão do Next.
 
 ## Variáveis de ambiente
 

@@ -18,6 +18,7 @@ export default function Navbar() {
     { href: "/#projects", label: t.nav_projects },
     { href: "/stack", label: t.nav_stack },
     { href: "/playground", label: t.nav_playground },
+    { href: "/now", label: t.nav_now },
     { href: "/#contact", label: t.nav_contact },
     { href: "https://www.linkedin.com/in/marcelo-augusto-oo/", label: "LinkedIn", external: true },
     { href: "https://github.com/marcelitos1v9", label: "GitHub", external: true },

@@ -95,6 +95,25 @@ const pt = {
 
   // BackToTop
   backtotop_aria: "Voltar ao topo",
+
+  // Playground SQL editor
+  playground_editor_label: "Sua vez",
+  playground_editor_heading: "Rode seu próprio SQL.",
+  playground_editor_subtitle:
+    "As tabelas staging_meter_readings, bronze_meter_readings, silver_meter_consumption e gold_consumption_by_site estão disponíveis assim que o pipeline rodar.",
+  playground_editor_run: "▶ Executar",
+  playground_editor_clear: "Limpar",
+  playground_editor_examples: "Exemplos",
+  playground_editor_error: "Erro de SQL",
+  playground_editor_aria: "Editor SQL — escreva uma query DuckDB",
+
+  // Now page
+  nav_now: "Now",
+  now_label: "/now",
+  now_heading: "No que estou trabalhando agora.",
+  now_subtitle:
+    "Inspirado em nownownow.com. Atualizado manualmente conforme o foco muda — não é blog nem feed automatizado.",
+  now_updated: "Atualizado em",
 }
 
 const en: typeof pt = {
@@ -185,6 +204,23 @@ const en: typeof pt = {
     n === 1 ? "1 result" : `${n} results`,
 
   backtotop_aria: "Back to top",
+
+  playground_editor_label: "Your turn",
+  playground_editor_heading: "Run your own SQL.",
+  playground_editor_subtitle:
+    "The tables staging_meter_readings, bronze_meter_readings, silver_meter_consumption and gold_consumption_by_site become available once the pipeline has run.",
+  playground_editor_run: "▶ Run",
+  playground_editor_clear: "Clear",
+  playground_editor_examples: "Examples",
+  playground_editor_error: "SQL error",
+  playground_editor_aria: "SQL editor — write a DuckDB query",
+
+  nav_now: "Now",
+  now_label: "/now",
+  now_heading: "What I'm working on right now.",
+  now_subtitle:
+    "Inspired by nownownow.com. Updated manually as focus shifts — not a blog, not an automated feed.",
+  now_updated: "Updated on",
 }
 
 export const i18n = { pt, en }

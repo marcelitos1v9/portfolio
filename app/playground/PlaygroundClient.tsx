@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { STEPS, type Step, type StepKey } from "./pipeline"
+import SqlEditor from "./SqlEditor"
 
 // Async-only types — runtime is dynamically imported so the ~5MB SDK is
 // code-split out of the main bundle.
@@ -331,6 +332,14 @@ export default function PlaygroundClient() {
           ? "Stack: DuckDB-WASM (Apache 2.0) loaded via jsDelivr CDN · Web Worker thread · ~12 MB downloaded on first visit · all SQL runs on your CPU, none of it leaves the tab."
           : "Stack: DuckDB-WASM (Apache 2.0) carregado via CDN jsDelivr · Web Worker · ~12 MB baixados na primeira visita · todo o SQL roda na sua CPU, nada sai dessa aba."}
       </p>
+
+      {/* Free-form SQL editor — same DuckDB connection as the pipeline. */}
+      <SqlEditor
+        getConnection={() => connRef.current}
+        pipelineDone={allDone}
+        t={t}
+        lang={lang}
+      />
 
       <style>{`
         @media (max-width: 768px) {

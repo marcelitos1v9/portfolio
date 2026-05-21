@@ -14,6 +14,12 @@ export type ProjectEntry = {
   tags: string[]
   link?: string
   repo?: string
+  /** Optional Mermaid diagram source rendered on the project's detail page. */
+  diagram?: {
+    chart: string
+    caption: string
+    caption_en: string
+  }
 }
 
 export const projectsData: ProjectEntry[] = [
@@ -47,6 +53,29 @@ export const projectsData: ProjectEntry[] = [
     tags: ["Kotlin", "Jetpack Compose", "Python", "PyTorch", "FastAPI", "Next.js", "Vercel", "Android"],
     link: "https://calmwave-landingpage.vercel.app",
     repo: "https://github.com/vvAi-Startup",
+    diagram: {
+      chart: `flowchart TB
+  subgraph Mobile["Android App · Kotlin + Compose"]
+    REC[Sessão guiada]
+  end
+  subgraph API["Python · FastAPI"]
+    UNET[Modelo U-Net<br/>PyTorch]
+  end
+  subgraph Web["Next.js"]
+    DASH[Painel terapeuta]
+    LP[Landing page]
+  end
+  REC -- áudio captado --> UNET
+  UNET -- áudio limpo --> REC
+  REC -- sessão / progresso --> DASH
+  DASH -- relatório --> Resp[Responsáveis]
+  classDef ml fill:#E8C547,stroke:#E8C547,color:#0D0D0D;
+  class UNET ml;`,
+      caption:
+        "Arquitetura multi-repo: app Android consome microserviço Python (PyTorch U-Net) e painel Next.js para terapeutas.",
+      caption_en:
+        "Multi-repo architecture: Android app talks to a Python microservice (PyTorch U-Net) and a Next.js dashboard for therapists.",
+    },
   },
   {
     index: "02",
@@ -76,6 +105,20 @@ export const projectsData: ProjectEntry[] = [
       "Error-prone process now runs at scale with auditability and zero manual intervention",
     ],
     tags: ["BigQuery", "Dataform", "SQL", "JavaScript UDFs", "GCP", "Medallion Architecture"],
+    diagram: {
+      chart: `flowchart LR
+  E[Excel manual] -. legado .-> S
+  S[Staging<br/>GCS] --> B[Bronze<br/>BigQuery]
+  B --> S2[Silver<br/>SQL + UDF JS]
+  S2 -- FIFO multi-CD --> G[Gold<br/>Mart por CD]
+  G --> BI[(BI / Relatórios)]
+  classDef gold fill:#E8C547,stroke:#E8C547,color:#0D0D0D;
+  class G gold;`,
+      caption:
+        "Reestruturação: planilha Excel → pipeline Dataform serverless. FIFO multi-CD vira UDF em JavaScript no Silver.",
+      caption_en:
+        "Redesign: Excel spreadsheet → serverless Dataform pipeline. Multi-DC FIFO becomes a JavaScript UDF in Silver.",
+    },
   },
   {
     index: "03",

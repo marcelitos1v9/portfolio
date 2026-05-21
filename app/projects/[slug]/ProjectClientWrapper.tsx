@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { useLanguage } from "@/contexts/LanguageContext"
+import MermaidDiagram from "@/components/ui/MermaidDiagram"
 import type { ProjectEntry } from "@/lib/data/projects"
 
 export default function ProjectClientWrapper({ project }: { project: ProjectEntry }) {
@@ -112,6 +113,13 @@ export default function ProjectClientWrapper({ project }: { project: ProjectEntr
       >
         {summary}
       </p>
+
+      {project.diagram && (
+        <MermaidDiagram
+          chart={project.diagram.chart}
+          caption={lang === "en" ? project.diagram.caption_en : project.diagram.caption}
+        />
+      )}
 
       <ul
         style={{

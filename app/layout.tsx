@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next"
 import { Fraunces, DM_Mono, DM_Sans } from "next/font/google"
 import "./globals.css"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import LenisProvider from "@/components/ui/LenisProvider"
 import Providers from "@/components/ui/Providers"
 import { personJsonLd, projectsJsonLd } from "@/lib/seo/jsonLd"
@@ -122,6 +124,10 @@ export default function RootLayout({
         <LenisProvider>
           <Providers>{children}</Providers>
         </LenisProvider>
+        {/* Privacy-friendly first-party analytics (no cookies); only loaded
+            in production. Web Vitals are reported to Speed Insights. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
