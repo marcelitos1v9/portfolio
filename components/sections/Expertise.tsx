@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useInView } from "@/hooks/useInView"
 import { useLanguage } from "@/contexts/LanguageContext"
 
@@ -96,6 +97,28 @@ export default function Expertise() {
             <StageCard key={stage.step} stage={stage} index={i} total={stages.length} />
           ))}
         </div>
+      </div>
+
+      {/* Live pipeline CTA */}
+      <div style={{ marginTop: "2rem" }}>
+        <Link
+          href="/playground"
+          style={{
+            fontFamily: "var(--font-dm-mono)",
+            fontSize: "0.75rem",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: "var(--color-accent)",
+            textDecoration: "none",
+            borderBottom: "1px solid transparent",
+            transition: "border-color 0.2s",
+            display: "inline-block",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--color-accent)")}
+          onMouseLeave={(e) => (e.currentTarget.style.borderColor = "transparent")}
+        >
+          {t.expertise_try_link}
+        </Link>
       </div>
     </section>
   )

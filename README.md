@@ -12,6 +12,7 @@ serifada/monoespaçada.
 - **Tailwind v4** + design tokens em CSS variables
 - **Framer Motion** para transições
 - **Lenis** para smooth scroll virtualizado
+- **DuckDB-WASM** (em `/playground`) rodando SQL no browser, sem backend
 - Custom cursor, scroll-progress, text scramble, intersection-observer
   compartilhado
 
@@ -32,6 +33,11 @@ app/
   stack/
     page.tsx              # /stack
     opengraph-image.tsx   # OG específica da página
+  playground/
+    page.tsx              # /playground — pipeline Medallion ao vivo (DuckDB-WASM)
+    PlaygroundClient.tsx  # carrega DuckDB do CDN jsDelivr em Web Worker
+    pipeline.ts           # SQL + dataset sintético de leituras de medidores
+    opengraph-image.tsx   # OG da página
   projects/
     [slug]/page.tsx       # uma rota por projeto, geração estática
   sitemap.ts

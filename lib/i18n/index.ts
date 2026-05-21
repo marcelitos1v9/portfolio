@@ -5,6 +5,7 @@ const pt = {
   nav_stack: "Stack",
   nav_contact: "Contato",
   nav_projects: "Projetos",
+  nav_playground: "Playground",
 
   // Hero
   hero_subtitle_line1: "Pipelines end-to-end em GCP. Medallion Architecture.",
@@ -53,6 +54,7 @@ const pt = {
   expertise_bronze: "Bronze",
   expertise_silver: "Silver",
   expertise_gold: "Gold",
+  expertise_try_link: "Rodar pipeline ao vivo →",
 
   // Timeline
   timeline_label: "Trajetória",
@@ -97,6 +99,7 @@ const en: typeof pt = {
   nav_stack: "Stack",
   nav_contact: "Contact",
   nav_projects: "Projects",
+  nav_playground: "Playground",
 
   hero_subtitle_line1: "End-to-end pipelines on GCP. Medallion Architecture.",
   hero_subtitle_line2: "Raw data into reliable analytical assets.",
@@ -144,6 +147,7 @@ const en: typeof pt = {
   expertise_bronze: "Bronze",
   expertise_silver: "Silver",
   expertise_gold: "Gold",
+  expertise_try_link: "Run a live pipeline →",
 
   timeline_label: "Career",
   timeline_heading: "Career milestones",
