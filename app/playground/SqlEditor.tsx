@@ -1,8 +1,24 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import type { Translations } from "@/lib/i18n"
+
+// Compact, URL-safe base64 (UTF-8 aware) so a query can live in `?q=`.
+function encodeSql(sql: string): string {
+  const bytes = new TextEncoder().encode(sql)
+  let bin = ""
+  bytes.forEach((b) => (bin += String.fromCharCode(b)))
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+}
+function decodeSql(s: string): string | null {
+  try {
+    const bin = atob(s.replace(/-/g, "+").replace(/_/g, "/"))
+    return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)))
+  } catch {
+    return null
+  }
+}
 
 type AsyncDuckDBConnection = import("@duckdb/duckdb-wasm").AsyncDuckDBConnection
 type Row = Record<string, unknown>
@@ -30,6 +46,18 @@ const EXAMPLES: { label: string; sql: string }[] = [
     sql: "SELECT hour_bucket, AVG(consumption_kwh) AS avg_kwh\nFROM silver_meter_consumption\nGROUP BY 1\nORDER BY 1;",
   },
   {
+    label: "Consumo por site (Gold)",
+    sql: "SELECT site_code, day, active_meters, total_kwh\nFROM gold_consumption_by_site\nORDER BY total_kwh DESC;",
+  },
+  {
+    label: "Ranking com window function",
+    sql: "SELECT meter_id,\n       SUM(consumption_kwh) AS total_kwh,\n       RANK() OVER (ORDER BY SUM(consumption_kwh) DESC) AS rnk\nFROM silver_meter_consumption\nGROUP BY 1\nORDER BY rnk;",
+  },
+  {
+    label: "Taxa de qualidade Bronze",
+    sql: "SELECT\n  COUNT(*) AS total,\n  COUNT(*) FILTER (WHERE TRY_CAST(raw_value AS DOUBLE) IS NULL) AS invalidas,\n  ROUND(100.0 * COUNT(*) FILTER (WHERE TRY_CAST(raw_value AS DOUBLE) IS NOT NULL) / COUNT(*), 1) AS pct_validas\nFROM staging_meter_readings;",
+  },
+  {
     label: "Inspecionar schema",
     sql: "SELECT table_name, column_name, data_type\nFROM information_schema.columns\nWHERE table_schema = 'main'\nORDER BY table_name, ordinal_position;",
   },
@@ -44,7 +72,28 @@ export default function SqlEditor({ getConnection, pipelineDone, t, lang }: Prop
   const [error, setError] = useState<string | null>(null)
   const [running, setRunning] = useState(false)
   const [executionMs, setExecutionMs] = useState<number | null>(null)
+  const [shared, setShared] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  // Hydrate the editor from a shared `?q=` link (client-only, so no SSR mismatch).
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("q")
+    if (!q) return
+    const decoded = decodeSql(q)
+    if (decoded) setSql(decoded)
+  }, [])
+
+  const share = useCallback(async () => {
+    const url = `${window.location.origin}${window.location.pathname}?q=${encodeSql(sql)}#sql-editor`
+    history.replaceState(null, "", url)
+    try {
+      await navigator.clipboard.writeText(url)
+      setShared(true)
+      setTimeout(() => setShared(false), 1800)
+    } catch {
+      /* clipboard blocked — URL is still updated so the user can copy manually */
+    }
+  }, [sql])
 
   const run = useCallback(async () => {
     const conn = getConnection()
@@ -155,7 +204,7 @@ export default function SqlEditor({ getConnection, pipelineDone, t, lang }: Prop
               // Focus the textarea so the user can iterate immediately.
               requestAnimationFrame(() => textareaRef.current?.focus())
             }}
-            disabled={!pipelineDone && ex.sql.includes("silver_") || (!pipelineDone && ex.sql.includes("bronze_"))}
+            disabled={!pipelineDone && /(?:bronze_|silver_|gold_)/.test(ex.sql)}
             style={{
               fontFamily: "var(--font-dm-mono)",
               fontSize: "0.7rem",
@@ -267,6 +316,25 @@ export default function SqlEditor({ getConnection, pipelineDone, t, lang }: Prop
             }}
           >
             {t.playground_editor_clear}
+          </button>
+          <button
+            type="button"
+            onClick={share}
+            disabled={!sql.trim()}
+            style={{
+              fontFamily: "var(--font-dm-mono)",
+              fontSize: "0.75rem",
+              letterSpacing: "0.1em",
+              background: "transparent",
+              color: shared ? "var(--color-accent)" : "var(--color-body)",
+              border: `1px solid ${shared ? "var(--color-accent)" : "var(--color-border)"}`,
+              padding: "0.5rem 1rem",
+              cursor: sql.trim() ? "pointer" : "not-allowed",
+              transition: "border-color 0.2s, color 0.2s",
+              minHeight: 36,
+            }}
+          >
+            {shared ? t.playground_editor_shared : `↗ ${t.playground_editor_share}`}
           </button>
           <span
             style={{

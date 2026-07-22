@@ -109,6 +109,8 @@ const pt = {
   playground_editor_examples: "Exemplos",
   playground_editor_error: "Erro de SQL",
   playground_editor_aria: "Editor SQL — escreva uma query DuckDB",
+  playground_editor_share: "Compartilhar",
+  playground_editor_shared: "Link copiado ✓",
 
   // Now page
   nav_now: "Now",
@@ -259,6 +261,8 @@ const en: typeof pt = {
   playground_editor_examples: "Examples",
   playground_editor_error: "SQL error",
   playground_editor_aria: "SQL editor — write a DuckDB query",
+  playground_editor_share: "Share",
+  playground_editor_shared: "Link copied ✓",
 
   nav_now: "Now",
   now_label: "/now",
