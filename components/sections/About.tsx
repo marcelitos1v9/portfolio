@@ -18,6 +18,7 @@ export default function About() {
 
   return (
     <section
+      id="about"
       ref={sectionRef}
       style={{
         padding: "clamp(5rem, 12vw, 10rem) clamp(1.5rem, 8vw, 8rem)",

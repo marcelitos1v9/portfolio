@@ -114,6 +114,45 @@ const pt = {
   now_subtitle:
     "Inspirado em nownownow.com. Atualizado manualmente conforme o foco muda — não é blog nem feed automatizado.",
   now_updated: "Atualizado em",
+  now_activity_title: "Atividade recente no GitHub",
+  now_activity_empty: "Sem atividade pública recente.",
+
+  // Command palette
+  cmd_placeholder: "Buscar comandos ou ir para…",
+  cmd_empty: "Nenhum comando encontrado",
+  cmd_group_nav: "Navegar",
+  cmd_group_actions: "Ações",
+  cmd_group_links: "Links",
+  cmd_go_home: "Início",
+  cmd_go_about: "Sobre",
+  cmd_go_expertise: "Medallion Architecture",
+  cmd_go_projects: "Projetos",
+  cmd_go_timeline: "Trajetória",
+  cmd_go_stack: "Stack técnica",
+  cmd_go_playground: "Playground SQL",
+  cmd_go_now: "Now",
+  cmd_go_contact: "Contato",
+  cmd_download_cv: "Baixar CV (PDF)",
+  cmd_copy_email: "Copiar email",
+  cmd_copied: "Email copiado ✓",
+  cmd_toggle_lang: "Mudar para English",
+  cmd_hint_nav: "navegar",
+  cmd_hint_select: "selecionar",
+  cmd_hint_close: "fechar",
+  cmd_open_aria: "Abrir paleta de comandos",
+  cmd_title: "Paleta de comandos",
+
+  // Contact form
+  contact_form_name: "Nome",
+  contact_form_email: "Email",
+  contact_form_message: "Mensagem",
+  contact_form_send: "Enviar mensagem",
+  contact_form_sending: "Enviando…",
+  contact_form_success: "Mensagem enviada. Obrigado — retorno em breve!",
+  contact_form_error: "Não foi possível enviar. Tente o email direto.",
+  contact_form_or: "ou envie um email direto",
+  contact_form_required: "Preencha nome, email e mensagem.",
+  contact_form_invalid_email: "Email inválido.",
 }
 
 const en: typeof pt = {
@@ -221,6 +260,45 @@ const en: typeof pt = {
   now_subtitle:
     "Inspired by nownownow.com. Updated manually as focus shifts — not a blog, not an automated feed.",
   now_updated: "Updated on",
+  now_activity_title: "Recent GitHub activity",
+  now_activity_empty: "No recent public activity.",
+
+  // Command palette
+  cmd_placeholder: "Search commands or jump to…",
+  cmd_empty: "No commands found",
+  cmd_group_nav: "Navigate",
+  cmd_group_actions: "Actions",
+  cmd_group_links: "Links",
+  cmd_go_home: "Home",
+  cmd_go_about: "About",
+  cmd_go_expertise: "Medallion Architecture",
+  cmd_go_projects: "Projects",
+  cmd_go_timeline: "Career",
+  cmd_go_stack: "Technical stack",
+  cmd_go_playground: "SQL Playground",
+  cmd_go_now: "Now",
+  cmd_go_contact: "Contact",
+  cmd_download_cv: "Download CV (PDF)",
+  cmd_copy_email: "Copy email",
+  cmd_copied: "Email copied ✓",
+  cmd_toggle_lang: "Switch to Português",
+  cmd_hint_nav: "navigate",
+  cmd_hint_select: "select",
+  cmd_hint_close: "close",
+  cmd_open_aria: "Open command palette",
+  cmd_title: "Command palette",
+
+  // Contact form
+  contact_form_name: "Name",
+  contact_form_email: "Email",
+  contact_form_message: "Message",
+  contact_form_send: "Send message",
+  contact_form_sending: "Sending…",
+  contact_form_success: "Message sent. Thank you — I'll get back to you soon!",
+  contact_form_error: "Couldn't send. Try emailing me directly.",
+  contact_form_or: "or send a direct email",
+  contact_form_required: "Fill in name, email, and message.",
+  contact_form_invalid_email: "Invalid email.",
 }
 
 export const i18n = { pt, en }

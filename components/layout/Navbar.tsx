@@ -153,6 +153,37 @@ export default function Navbar() {
           >
             {lang === "pt" ? "EN" : "PT"}
           </button>
+
+          <button
+            onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
+            aria-label={t.cmd_open_aria}
+            title={t.cmd_open_aria}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.3rem",
+              background: "none",
+              border: "1px solid var(--color-border)",
+              borderRadius: 4,
+              cursor: "pointer",
+              padding: "0.3rem 0.5rem",
+              color: "var(--color-muted)",
+              fontFamily: "var(--font-dm-mono)",
+              fontSize: "0.7rem",
+              letterSpacing: "0.05em",
+              transition: "border-color 0.2s, color 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "var(--color-accent)"
+              e.currentTarget.style.color = "var(--color-heading)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "var(--color-border)"
+              e.currentTarget.style.color = "var(--color-muted)"
+            }}
+          >
+            ⌘K
+          </button>
         </nav>
 
         <button

@@ -1,23 +1,43 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useInView } from "@/hooks/useInView"
 import { useLanguage } from "@/contexts/LanguageContext"
 
+// Medallion tier accent — the color literally tells the raw→bronze→silver→gold
+// story as data flows down the pipeline.
+const TIER = {
+  raw: "#8A8A8A",
+  bronze: "#CD7F32",
+  silver: "#C7CBD1",
+  gold: "#E8C547",
+} as const
+
 export default function Expertise() {
   const { ref: titleRef, isVisible: titleVisible } = useInView()
   const { t } = useLanguage()
+  const [reduced, setReduced] = useState(true)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setReduced(mq.matches)
+    const onChange = () => setReduced(mq.matches)
+    mq.addEventListener("change", onChange)
+    return () => mq.removeEventListener("change", onChange)
+  }, [])
 
   const stages = [
-    { step: "01", label: t.expertise_ingestion, techs: ["Pub/Sub", "Cloud Run", "CDC"] },
-    { step: "02", label: t.expertise_staging, techs: ["Datastream", "GCS", "Raw Zone"] },
-    { step: "03", label: t.expertise_bronze, techs: ["Dataform", "BigQuery", t.expertise_tech_validation] },
-    { step: "04", label: t.expertise_silver, techs: ["SQL UDFs", "Transforms", t.expertise_tech_partitions] },
-    { step: "05", label: t.expertise_gold, techs: ["Mart Tables", "BI Layer", "Output"] },
+    { step: "01", label: t.expertise_ingestion, techs: ["Pub/Sub", "Cloud Run", "CDC"], tier: TIER.raw },
+    { step: "02", label: t.expertise_staging, techs: ["Datastream", "GCS", "Raw Zone"], tier: TIER.raw },
+    { step: "03", label: t.expertise_bronze, techs: ["Dataform", "BigQuery", t.expertise_tech_validation], tier: TIER.bronze },
+    { step: "04", label: t.expertise_silver, techs: ["SQL UDFs", "Transforms", t.expertise_tech_partitions], tier: TIER.silver },
+    { step: "05", label: t.expertise_gold, techs: ["Mart Tables", "BI Layer", "Output"], tier: TIER.gold },
   ]
 
   return (
     <section
+      id="expertise"
       style={{
         padding: "clamp(5rem, 12vw, 10rem) clamp(1.5rem, 8vw, 8rem)",
         position: "relative",
@@ -84,6 +104,14 @@ export default function Expertise() {
           @media (max-width: 768px) {
             .expertise-scroll-hint { display: block !important; }
           }
+          @keyframes tierPulse {
+            0%, 100% { transform: scale(1); opacity: 0.85; }
+            50% { transform: scale(1.35); opacity: 1; }
+          }
+          .tier-pulse { animation: tierPulse 2.1s ease-in-out infinite; }
+          @media (prefers-reduced-motion: reduce) {
+            .tier-pulse { animation: none !important; }
+          }
         `}</style>
         <div
           style={{
@@ -94,7 +122,7 @@ export default function Expertise() {
           }}
         >
           {stages.map((stage, i) => (
-            <StageCard key={stage.step} stage={stage} index={i} total={stages.length} />
+            <StageCard key={stage.step} stage={stage} index={i} total={stages.length} reduced={reduced} />
           ))}
         </div>
       </div>
@@ -128,10 +156,12 @@ function StageCard({
   stage,
   index,
   total,
+  reduced,
 }: {
-  stage: { step: string; label: string; techs: string[] }
+  stage: { step: string; label: string; techs: string[]; tier: string }
   index: number
   total: number
+  reduced: boolean
 }) {
   const { ref, isVisible } = useInView()
 
@@ -160,7 +190,7 @@ function StageCard({
         }}
         onMouseEnter={(e) => {
           const el = e.currentTarget
-          el.style.borderColor = "var(--color-accent)"
+          el.style.borderColor = stage.tier
           const topLine = el.querySelector<HTMLElement>(".top-accent")
           if (topLine) topLine.style.transform = "scaleX(1)"
         }}
@@ -171,7 +201,7 @@ function StageCard({
           if (topLine) topLine.style.transform = "scaleX(0)"
         }}
       >
-        {/* Top accent bar */}
+        {/* Top accent bar — tinted by medallion tier */}
         <div
           className="top-accent"
           style={{
@@ -180,7 +210,7 @@ function StageCard({
             left: -1,
             right: -1,
             height: 2,
-            background: "var(--color-accent)",
+            background: stage.tier,
             transformOrigin: "left",
             transform: "scaleX(0)",
             transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)",
@@ -205,9 +235,12 @@ function StageCard({
           {stage.step}
         </span>
 
-        {/* Label */}
+        {/* Label with tier indicator dot */}
         <h3
           style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
             fontFamily: "var(--font-dm-mono)",
             fontSize: "0.75rem",
             letterSpacing: "0.12em",
@@ -216,6 +249,20 @@ function StageCard({
             marginBottom: "1.25rem",
           }}
         >
+          <span
+            aria-hidden="true"
+            className={reduced ? "" : "tier-pulse"}
+            style={{
+              width: 7,
+              height: 7,
+              borderRadius: "50%",
+              background: stage.tier,
+              boxShadow: `0 0 8px ${stage.tier}`,
+              flexShrink: 0,
+              // Stagger each tier's pulse so they ripple down the pipeline.
+              animationDelay: `${index * 0.28}s`,
+            }}
+          />
           {stage.label}
         </h3>
 
@@ -247,21 +294,34 @@ function StageCard({
             flexShrink: 0,
           }}
         >
-          <ArrowConnector delay={index * 80 + 200} visible={isVisible} />
+          <ArrowConnector delay={index * 80 + 200} visible={isVisible} color={stage.tier} reduced={reduced} index={index} />
         </div>
       )}
     </div>
   )
 }
 
-function ArrowConnector({ delay, visible }: { delay: number; visible: boolean }) {
+function ArrowConnector({
+  delay,
+  visible,
+  color,
+  reduced,
+  index,
+}: {
+  delay: number
+  visible: boolean
+  color: string
+  reduced: boolean
+  index: number
+}) {
   return (
     <svg
       width="32"
       height="16"
       viewBox="0 0 32 16"
       fill="none"
-      style={{ flexShrink: 0 }}
+      style={{ flexShrink: 0, overflow: "visible" }}
+      aria-hidden="true"
     >
       <line
         x1="0"
@@ -284,6 +344,29 @@ function ArrowConnector({ delay, visible }: { delay: number; visible: boolean })
         opacity={visible ? 1 : 0}
         style={{ transition: `opacity 0.3s ease ${delay + 300}ms` }}
       />
+
+      {/* Data token flowing from this stage to the next — the medallion flow.
+          Only rendered when the pipeline is visible and motion is allowed. */}
+      {visible && !reduced && (
+        <circle r="2.2" cy="8" fill={color}>
+          <animate
+            attributeName="cx"
+            from="0"
+            to="26"
+            dur="1.5s"
+            begin={`${index * 0.3}s`}
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="opacity"
+            values="0;1;1;0"
+            keyTimes="0;0.15;0.75;1"
+            dur="1.5s"
+            begin={`${index * 0.3}s`}
+            repeatCount="indefinite"
+          />
+        </circle>
+      )}
     </svg>
   )
 }
