@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import NowClient from "./NowClient"
+import { getRecentActivity } from "@/lib/data/github"
 
 export const metadata: Metadata = {
   title: "Now",
@@ -15,7 +16,9 @@ export const metadata: Metadata = {
   },
 }
 
-export default function NowPage() {
+export default async function NowPage() {
+  const activity = await getRecentActivity()
+
   return (
     <>
       <Navbar />
@@ -29,7 +32,7 @@ export default function NowPage() {
           zIndex: 1,
         }}
       >
-        <NowClient />
+        <NowClient activity={activity} />
       </main>
       <Footer />
     </>

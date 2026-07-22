@@ -2,8 +2,17 @@
 
 import { useLanguage } from "@/contexts/LanguageContext"
 import { NOW_SECTIONS, NOW_UPDATED_AT } from "@/lib/data/now"
+import type { ActivityItem } from "@/lib/data/github"
 
-export default function NowClient() {
+const ACTIVITY_ICON: Record<ActivityItem["type"], string> = {
+  push: "●",
+  pr: "⇅",
+  create: "+",
+  release: "▲",
+  fork: "⑂",
+}
+
+export default function NowClient({ activity = [] }: { activity?: ActivityItem[] }) {
   const { lang, t } = useLanguage()
 
   const fmtDate = (iso: string) => {
@@ -13,6 +22,18 @@ export default function NowClient() {
       month: "long",
       year: "numeric",
     })
+  }
+
+  const relTime = (iso: string) => {
+    const then = new Date(iso).getTime()
+    if (Number.isNaN(then)) return ""
+    const diff = then - Date.now()
+    const rtf = new Intl.RelativeTimeFormat(lang === "en" ? "en" : "pt-BR", { numeric: "auto" })
+    const abs = Math.abs(diff)
+    const h = 3_600_000
+    if (abs < h) return rtf.format(Math.round(diff / 60_000), "minute")
+    if (abs < 24 * h) return rtf.format(Math.round(diff / h), "hour")
+    return rtf.format(Math.round(diff / (24 * h)), "day")
   }
 
   return (
@@ -119,6 +140,62 @@ export default function NowClient() {
             </ul>
           </section>
         ))}
+
+        {/* Live GitHub activity — real, self-updating (30-min ISR) */}
+        {activity.length > 0 && (
+          <section>
+            <h2
+              style={{
+                fontFamily: "var(--font-dm-mono)",
+                fontSize: "0.7rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "var(--color-accent)",
+                marginBottom: "1rem",
+                paddingBottom: "0.5rem",
+                borderBottom: "1px solid var(--color-border)",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <span
+                aria-hidden="true"
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: "var(--color-accent)",
+                  boxShadow: "0 0 6px var(--color-accent)",
+                }}
+              />
+              {t.now_activity_title}
+            </h2>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+              {activity.map((item, i) => (
+                <li key={i} style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "0.85rem", alignItems: "baseline" }}>
+                  <span aria-hidden="true" style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.7rem", color: "var(--color-muted)" }}>
+                    {ACTIVITY_ICON[item.type]}
+                  </span>
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontFamily: "var(--font-dm-sans)", fontSize: "0.95rem", color: "var(--color-body)", lineHeight: 1.6, textDecoration: "none" }}
+                  >
+                    <span style={{ color: "var(--color-muted)", fontFamily: "var(--font-dm-mono)", fontSize: "0.78rem" }}>
+                      {item.repo.split("/")[1] ?? item.repo}
+                    </span>{" "}
+                    {item.title}
+                  </a>
+                  <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.65rem", color: "var(--color-muted)", whiteSpace: "nowrap" }}>
+                    {relTime(item.createdAt)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     </div>
   )
