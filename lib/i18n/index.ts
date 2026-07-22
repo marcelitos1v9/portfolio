@@ -71,6 +71,9 @@ const pt = {
   projects_github: "GitHub ↗",
   projects_detail_link: "Ver detalhe completo →",
   project_back: "← Voltar para projetos",
+  projects_gh_updated: "atualizado",
+  projects_gh_stars_aria: "estrelas no GitHub",
+  projects_gh_live: "Dados ao vivo do GitHub",
 
   // Contact
   contact_heading: "Vamos conversar.",
@@ -222,6 +225,9 @@ const en: typeof pt = {
   projects_github: "GitHub ↗",
   projects_detail_link: "View full detail →",
   project_back: "← Back to projects",
+  projects_gh_updated: "updated",
+  projects_gh_stars_aria: "stars on GitHub",
+  projects_gh_live: "Live data from GitHub",
 
   contact_heading: "Let's talk.",
   contact_body: "If you have an interesting data challenge, I'm available to connect.",

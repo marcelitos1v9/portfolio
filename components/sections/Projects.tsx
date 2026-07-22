@@ -4,10 +4,15 @@ import { useState } from "react"
 import Link from "next/link"
 import { useInView } from "@/hooks/useInView"
 import { projectsData, type ProjectEntry } from "@/lib/data/projects"
+import type { RepoStats } from "@/lib/data/github"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { motion, AnimatePresence } from "framer-motion"
 
-export default function Projects() {
+export default function Projects({
+  githubStats = {},
+}: {
+  githubStats?: Record<string, RepoStats>
+}) {
   const [active, setActive] = useState<ProjectEntry>(projectsData[0])
   const { ref: titleRef, isVisible: titleVisible } = useInView()
   const { lang, t } = useLanguage()
@@ -163,7 +168,7 @@ export default function Projects() {
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
           >
-            <ProjectDetail project={active} lang={lang} t={t} />
+            <ProjectDetail project={active} lang={lang} t={t} stats={githubStats[active.slug]} />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -190,10 +195,19 @@ function ProjectDetail({
   project,
   lang,
   t,
+  stats,
 }: {
   project: ProjectEntry
   lang: string
-  t: { projects_view: string; projects_github: string; projects_detail_link: string }
+  t: {
+    projects_view: string
+    projects_github: string
+    projects_detail_link: string
+    projects_gh_updated: string
+    projects_gh_stars_aria: string
+    projects_gh_live: string
+  }
+  stats?: RepoStats
 }) {
   const role = lang === "en" ? project.role_en : project.role
   const context = lang === "en" ? project.context_en : project.context
@@ -202,6 +216,11 @@ function ProjectDetail({
 
   return (
     <div>
+      {/* Live GitHub stats — only when the repo resolved server-side */}
+      {stats && (
+        <GithubStatsRow stats={stats} lang={lang} t={t} />
+      )}
+
       {/* Context + role */}
       <div
         style={{
@@ -349,6 +368,109 @@ function ProjectDetail({
           </ProjectLink>
         )}
       </div>
+    </div>
+  )
+}
+
+/** Human-readable "x days/months ago" using the platform Intl formatter. */
+function relativeTime(iso: string, lang: string): string {
+  if (!iso) return ""
+  const then = new Date(iso).getTime()
+  if (Number.isNaN(then)) return ""
+  const diffMs = then - Date.now()
+  const rtf = new Intl.RelativeTimeFormat(lang === "en" ? "en" : "pt-BR", { numeric: "auto" })
+  const abs = Math.abs(diffMs)
+  const day = 86_400_000
+  if (abs < day) return rtf.format(Math.round(diffMs / 3_600_000), "hour")
+  if (abs < 30 * day) return rtf.format(Math.round(diffMs / day), "day")
+  if (abs < 365 * day) return rtf.format(Math.round(diffMs / (30 * day)), "month")
+  return rtf.format(Math.round(diffMs / (365 * day)), "year")
+}
+
+// Language → dot color, matching common GitHub language colors.
+const LANG_COLOR: Record<string, string> = {
+  Go: "#00ADD8",
+  Python: "#3572A5",
+  TypeScript: "#3178C6",
+  JavaScript: "#F1E05A",
+  Kotlin: "#A97BFF",
+  HTML: "#E34C26",
+  CSS: "#563D7C",
+  Shell: "#89E051",
+}
+
+function GithubStatsRow({
+  stats,
+  lang,
+  t,
+}: {
+  stats: RepoStats
+  lang: string
+  t: { projects_gh_updated: string; projects_gh_stars_aria: string; projects_gh_live: string }
+}) {
+  const itemStyle: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.35rem",
+    fontFamily: "var(--font-dm-mono)",
+    fontSize: "0.7rem",
+    letterSpacing: "0.05em",
+    color: "var(--color-muted)",
+  }
+  return (
+    <div
+      title={t.projects_gh_live}
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        gap: "1rem",
+        marginBottom: "1.25rem",
+        paddingBottom: "1rem",
+        borderBottom: "1px solid var(--color-border)",
+      }}
+    >
+      {/* Live indicator */}
+      <span style={{ ...itemStyle, color: "var(--color-accent)" }}>
+        <span
+          aria-hidden="true"
+          style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--color-accent)", boxShadow: "0 0 6px var(--color-accent)" }}
+        />
+        GitHub
+      </span>
+
+      <span style={itemStyle}>
+        <span aria-hidden="true">★</span>
+        <span aria-label={`${stats.stars} ${t.projects_gh_stars_aria}`}>{stats.stars}</span>
+      </span>
+
+      {stats.forks > 0 && (
+        <span style={itemStyle}>
+          <span aria-hidden="true">⑂</span>
+          {stats.forks}
+        </span>
+      )}
+
+      {stats.language && (
+        <span style={itemStyle}>
+          <span
+            aria-hidden="true"
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: LANG_COLOR[stats.language] ?? "var(--color-decorative)",
+            }}
+          />
+          {stats.language}
+        </span>
+      )}
+
+      {stats.pushedAt && (
+        <span style={itemStyle}>
+          {t.projects_gh_updated} {relativeTime(stats.pushedAt, lang)}
+        </span>
+      )}
     </div>
   )
 }
