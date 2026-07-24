@@ -12,6 +12,19 @@ const ACTIVITY_ICON: Record<ActivityItem["type"], string> = {
   fork: "⑂",
 }
 
+// Module scope keeps the impure `Date.now()` out of the render body.
+function relTime(iso: string, lang: string): string {
+  const then = new Date(iso).getTime()
+  if (Number.isNaN(then)) return ""
+  const diff = then - Date.now()
+  const rtf = new Intl.RelativeTimeFormat(lang === "en" ? "en" : "pt-BR", { numeric: "auto" })
+  const abs = Math.abs(diff)
+  const h = 3_600_000
+  if (abs < h) return rtf.format(Math.round(diff / 60_000), "minute")
+  if (abs < 24 * h) return rtf.format(Math.round(diff / h), "hour")
+  return rtf.format(Math.round(diff / (24 * h)), "day")
+}
+
 export default function NowClient({ activity = [] }: { activity?: ActivityItem[] }) {
   const { lang, t } = useLanguage()
 
@@ -24,17 +37,6 @@ export default function NowClient({ activity = [] }: { activity?: ActivityItem[]
     })
   }
 
-  const relTime = (iso: string) => {
-    const then = new Date(iso).getTime()
-    if (Number.isNaN(then)) return ""
-    const diff = then - Date.now()
-    const rtf = new Intl.RelativeTimeFormat(lang === "en" ? "en" : "pt-BR", { numeric: "auto" })
-    const abs = Math.abs(diff)
-    const h = 3_600_000
-    if (abs < h) return rtf.format(Math.round(diff / 60_000), "minute")
-    if (abs < 24 * h) return rtf.format(Math.round(diff / h), "hour")
-    return rtf.format(Math.round(diff / (24 * h)), "day")
-  }
 
   return (
     <div style={{ maxWidth: 760 }}>
@@ -189,7 +191,7 @@ export default function NowClient({ activity = [] }: { activity?: ActivityItem[]
                     {item.title}
                   </a>
                   <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.65rem", color: "var(--color-muted)", whiteSpace: "nowrap" }}>
-                    {relTime(item.createdAt)}
+                    {relTime(item.createdAt, lang)}
                   </span>
                 </li>
               ))}
