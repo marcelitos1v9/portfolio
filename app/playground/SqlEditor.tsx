@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import type { Translations } from "@/lib/i18n"
+import { toDisplayRows, type Row } from "./rows"
 
 // Compact, URL-safe base64 (UTF-8 aware) so a query can live in `?q=`.
 function encodeSql(sql: string): string {
@@ -21,7 +22,6 @@ function decodeSql(s: string): string | null {
 }
 
 type AsyncDuckDBConnection = import("@duckdb/duckdb-wasm").AsyncDuckDBConnection
-type Row = Record<string, unknown>
 
 type Props = {
   /** Live connection from the parent. May be null while DuckDB is still loading. */
@@ -103,15 +103,7 @@ export default function SqlEditor({ getConnection, pipelineDone, t, lang }: Prop
     try {
       const t0 = performance.now()
       const result = await conn.query(sql)
-      const out = result.toArray().map((r) => {
-        const obj = r.toJSON() as Record<string, unknown>
-        for (const k of Object.keys(obj)) {
-          const v = obj[k]
-          if (typeof v === "bigint") obj[k] = Number(v)
-          else if (v instanceof Date) obj[k] = v.toISOString()
-        }
-        return obj
-      })
+      const out = toDisplayRows(result)
       const t1 = performance.now()
       setRows(out)
       setExecutionMs(t1 - t0)

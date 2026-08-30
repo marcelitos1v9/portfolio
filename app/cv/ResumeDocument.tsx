@@ -1,31 +1,34 @@
-/* eslint-disable @next/next/no-img-element */
 import { Document, Page, Text, View, StyleSheet, Link, Font } from "@react-pdf/renderer"
 import { projectsData } from "@/lib/data/projects"
 import { timelineData } from "@/lib/data/timeline"
 import { stackData } from "@/lib/data/stack"
+import path from "node:path"
 
-// Register the Google Fonts used elsewhere in the site so the PDF matches
-// the on-screen typography. @react-pdf needs explicit TTF URLs.
+// Register the Google Fonts used elsewhere on the site so the PDF matches
+// the on-screen typography. The TTFs are vendored in `public/fonts` and read
+// straight off disk: the previous hardcoded fonts.gstatic.com URLs were
+// version-pinned (`/v15/`, `/v36/`) and started 404ing when Google rotated
+// them, which took the whole /cv route down with a 500.
+const FONT_DIR = path.join(process.cwd(), "public", "fonts")
+const font = (file: string) => path.join(FONT_DIR, file)
+
 Font.register({
   family: "Fraunces",
-  src: "https://fonts.gstatic.com/s/fraunces/v36/6NUh8FyLNQOQZAnv9ZwNjucMHVn85Ni7emA.ttf",
+  fonts: [
+    { src: font("Fraunces-Regular.ttf"), fontWeight: 400 },
+    { src: font("Fraunces-SemiBold.ttf"), fontWeight: 600 },
+  ],
 })
 Font.register({
   family: "DMSans",
   fonts: [
-    {
-      src: "https://fonts.gstatic.com/s/dmsans/v15/rP2tp2ywxg089UriI5-g7vN_AKjPLQ.ttf",
-      fontWeight: 400,
-    },
-    {
-      src: "https://fonts.gstatic.com/s/dmsans/v15/rP2tp2ywxg089UriCZ-w7vN_AKjPLQ.ttf",
-      fontWeight: 500,
-    },
+    { src: font("DMSans-Regular.ttf"), fontWeight: 400 },
+    { src: font("DMSans-Medium.ttf"), fontWeight: 500 },
   ],
 })
 Font.register({
   family: "DMMono",
-  src: "https://fonts.gstatic.com/s/dmmono/v14/aFTU7PB1QTsUX8KYhh2aBYyMcKw.ttf",
+  src: font("DMMono-Regular.ttf"),
 })
 
 const PALETTE = {

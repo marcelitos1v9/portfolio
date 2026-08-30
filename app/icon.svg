@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="MAA">
+  <rect width="64" height="64" rx="12" fill="#0D0D0D"/>
+  <!-- "M" monogram, drawn as strokes so it stays legible at 16px. -->
+  <path
+    d="M14 46V18l18 20 18-20v28"
+    fill="none"
+    stroke="#E8C547"
+    stroke-width="6"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  />
+</svg>

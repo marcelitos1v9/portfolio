@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 const HOVER_SELECTOR = "a, button, [role='button'], [data-cursor-hover]"
 
@@ -8,11 +9,12 @@ export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
   const [isHovering, setIsHovering] = useState(false)
-  const [enabled, setEnabled] = useState(false)
+  // Live subscription rather than a one-shot read: plugging in a mouse on a
+  // touch device now turns the cursor on instead of leaving it off forever.
+  const enabled = useMediaQuery("(pointer: fine)")
 
   useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return
-    setEnabled(true)
+    if (!enabled) return
 
     let mouseX = -100
     let mouseY = -100
@@ -62,7 +64,7 @@ export default function CustomCursor() {
       document.removeEventListener("mouseout", onOut)
       cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [enabled])
 
   if (!enabled) return null
 

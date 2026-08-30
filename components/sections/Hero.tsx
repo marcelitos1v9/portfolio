@@ -6,19 +6,22 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import HeroParticles from "@/components/ui/HeroParticles"
 
 export default function Hero() {
-  const [mounted, setMounted] = useState(false)
   const [lineVisible, setLineVisible] = useState(false)
   const [scrollVisible, setScrollVisible] = useState(true)
   const { t, lang } = useLanguage()
-  // Replay scramble whenever the user toggles language.
-  const scrambledName = useTextScramble("Marcelo Augusto.", mounted, lang)
+  // Replay scramble whenever the user toggles language. The hook animates from
+  // its own effect and renders `target` verbatim until then, so it is already
+  // hydration-safe without a `mounted` flag gating it.
+  const scrambledName = useTextScramble("Marcelo Augusto.", true, lang)
 
   useEffect(() => {
-    setMounted(true)
     const t1 = setTimeout(() => setLineVisible(true), 400)
     const onScroll = () => {
       setScrollVisible(window.scrollY <= 50)
     }
+    // Sync once up front: a reload that restores scroll position would
+    // otherwise keep showing the "scroll" hint until the next wheel event.
+    onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => {
       clearTimeout(t1)
@@ -49,8 +52,7 @@ export default function Hero() {
             textTransform: "uppercase",
             color: "var(--color-accent)",
             marginBottom: "1rem",
-            opacity: mounted ? 1 : 0,
-            transition: "opacity 0.5s ease 0.1s",
+            animation: "hero-fade-in 0.5s ease 0.1s both",
           }}
         >
           Data Engineer · Full Stack · AI
@@ -82,8 +84,7 @@ export default function Hero() {
             color: "var(--color-heading)",
             letterSpacing: "-0.02em",
             marginBottom: "2rem",
-            opacity: mounted ? 1 : 0,
-            transition: "opacity 0.6s ease 0.2s",
+            animation: "hero-fade-in 0.6s ease 0.2s both",
           }}
         >
           <span aria-hidden="true">{scrambledName}</span>
@@ -98,8 +99,7 @@ export default function Hero() {
             lineHeight: 1.7,
             maxWidth: "480px",
             marginBottom: "3rem",
-            opacity: mounted ? 1 : 0,
-            transition: "opacity 0.6s ease 0.4s",
+            animation: "hero-fade-in 0.6s ease 0.4s both",
           }}
         >
           {t.hero_subtitle_line1}
@@ -115,8 +115,7 @@ export default function Hero() {
             display: "flex",
             flexWrap: "wrap",
             gap: "0.75rem",
-            opacity: mounted ? 1 : 0,
-            transition: "opacity 0.6s ease 0.6s",
+            animation: "hero-fade-in 0.6s ease 0.6s both",
           }}
         >
           <a

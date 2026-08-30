@@ -54,10 +54,14 @@ export default function Navbar() {
     }
   }, [open, lenis])
 
-  // Close menu on route change (e.g. /stack → /)
-  useEffect(() => {
+  // Close the menu on route change (e.g. /stack → /). Adjusting state during
+  // render is React's documented answer here — an effect would paint the open
+  // menu over the new page for a frame first.
+  const [menuPathname, setMenuPathname] = useState(pathname)
+  if (menuPathname !== pathname) {
+    setMenuPathname(pathname)
     setOpen(false)
-  }, [pathname])
+  }
 
   return (
     <>

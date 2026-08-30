@@ -1,5 +1,7 @@
 export type StackItem = {
   name: string
+  /** Only needed when `name` isn't language-neutral — most tech names are. */
+  name_en?: string
   description: string
   description_en: string
   context: string
@@ -106,6 +108,7 @@ export const stackData: StackCategory[] = [
       },
       {
         name: "dbt (conceitos)",
+        name_en: "dbt (concepts)",
         description:
           "Conhecimento de modelagem semântica, testes, documentação e materialização incremental — aplicados conceitualmente na orquestração com Dataform.",
         description_en:

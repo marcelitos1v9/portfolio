@@ -49,6 +49,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Lenis drives scrolling frame by frame once it mounts (it adds `.lenis` to
+   <html>). Leaving native smooth scrolling on makes the browser animate
+   towards its own target at the same time, and the two fight over
+   `scrollTop`. Hand the wheel over as soon as Lenis is live. */
+html.lenis {
+  scroll-behavior: auto;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-body);
@@ -123,6 +131,15 @@ button:focus-visible {
 .reveal-delay-3 { transition-delay: 300ms; }
 .reveal-delay-4 { transition-delay: 400ms; }
 
+/* ── Hero Entry ────────────────────────────────────────── */
+/* Staggered fade-in driven by CSS rather than a React `mounted` flag: the
+   flag cost a cascading render on every mount, and the elements are painted
+   at their final opacity by the very first frame. */
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 /* ── Animated Underline ────────────────────────────────── */
 .animated-line {
   display: block;
@@ -178,6 +195,10 @@ button:focus-visible {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+    /* Delays matter as much as durations here: without this, a staggered
+       reveal leaves content invisible for its full delay before snapping in. */
+    animation-delay: 0.01ms !important;
+    transition-delay: 0.01ms !important;
   }
   html {
     scroll-behavior: auto;

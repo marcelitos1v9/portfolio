@@ -152,8 +152,14 @@ export default function CommandPalette() {
     }
   }, [open, lenis])
 
-  // Reset highlight when the filtered set changes.
-  useEffect(() => setActive(0), [query])
+  // Reset the highlight when the filtered set changes. Done during render so
+  // the first result is highlighted on the same paint that shows it, rather
+  // than one frame later.
+  const [activeQuery, setActiveQuery] = useState(query)
+  if (activeQuery !== query) {
+    setActiveQuery(query)
+    setActive(0)
+  }
 
   const runActive = () => {
     const cmd = filtered[active]

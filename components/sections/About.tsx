@@ -7,7 +7,7 @@ export default function About() {
   const { ref: sectionRef, isVisible: sectionVisible } = useInView<HTMLElement>()
   const { ref: lineRef, isVisible: lineVisible } = useInView<HTMLSpanElement>()
   const { ref: cardsRef, isVisible: cardsVisible } = useInView()
-  const { lang, t } = useLanguage()
+  const { t } = useLanguage()
 
   const highlights = [
     { label: t.about_fact_date_label, value: t.about_fact_date_value },

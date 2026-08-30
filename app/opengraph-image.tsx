@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og"
 
-export const runtime = "edge"
 export const alt = "Marcelo Augusto — Data Engineer & Full Stack Developer"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
@@ -78,7 +77,9 @@ export default function OgImage() {
             fontSize: 22,
             color: "#C2C2C2",
             lineHeight: 1.6,
-            maxWidth: 760,
+            // Wide enough to keep the tech list on one line — at 760 it
+            // wrapped, leaving "Go" orphaned on a second row.
+            maxWidth: 940,
             display: "flex",
           }}
         >

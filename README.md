@@ -7,7 +7,7 @@ serifada/monoespaçada.
 
 ## Stack
 
-- **Next.js 16** (App Router, React 19, edge runtime para OG images)
+- **Next.js 16** (App Router, React 19, OG images geradas no build)
 - **TypeScript** estrito
 - **Tailwind v4** + design tokens em CSS variables
 - **Framer Motion** para transições
@@ -29,14 +29,24 @@ app/
   layout.tsx              # raiz, fontes, metadata, JSON-LD
   page.tsx                # home (Hero + About + Expertise + Projects + Timeline + Contact)
   template.tsx            # transição de rota
+  icon.svg                # favicon (monograma MAA)
   opengraph-image.tsx     # OG da home (bilíngue, tech-term-only)
+  api/contact/route.ts    # entrega do formulário (Resend / webhook / mailto)
+  cv/
+    route.ts              # GET /cv?lang=pt|en → PDF
+    ResumeDocument.tsx    # documento @react-pdf
+  now/
+    page.tsx              # /now — foco atual + atividade recente no GitHub
+    NowClient.tsx
   stack/
     page.tsx              # /stack
     opengraph-image.tsx   # OG específica da página
   playground/
     page.tsx              # /playground — pipeline Medallion ao vivo (DuckDB-WASM)
     PlaygroundClient.tsx  # carrega DuckDB do CDN jsDelivr em Web Worker
+    SqlEditor.tsx         # editor livre, queries compartilháveis via ?q=
     pipeline.ts           # SQL + dataset sintético de leituras de medidores
+    rows.ts               # Arrow → linhas exibíveis (datas, BigInt)
     opengraph-image.tsx   # OG da página
   projects/
     [slug]/page.tsx       # uma rota por projeto, geração estática
@@ -44,17 +54,20 @@ app/
   robots.ts
 
 components/
-  layout/Navbar.tsx
+  layout/{Navbar,Footer}.tsx
   sections/{Hero,About,Expertise,Projects,Timeline,Contact}.tsx
   stack/{StackExplorer,StackPageHeader}.tsx
-  ui/{LenisProvider,CustomCursor,ScrollProgress,BackToTop,Providers}.tsx
+  ui/{LenisProvider,CustomCursor,ScrollProgress,BackToTop,Providers,
+      CommandPalette,HeroParticles,KonamiCode,MermaidDiagram}.tsx
 
 contexts/LanguageContext.tsx   # toggle PT/EN client-side, sincroniza <html lang>
-hooks/{useInView,useTextScramble,useMousePosition}.ts
+hooks/{useInView,useTextScramble,useMousePosition,useMediaQuery}.ts
 lib/
-  data/{projects,stack,timeline}.ts   # conteúdo
-  i18n/index.ts                       # traduções (PT/EN)
-  seo/jsonLd.ts                       # schema.org Person + projetos
+  data/{projects,stack,timeline,now,github}.ts   # conteúdo + fetch do GitHub
+  i18n/index.ts                                  # traduções (PT/EN)
+  seo/jsonLd.ts                                  # schema.org Person + projetos
+public/
+  fonts/                  # TTFs (DM Sans, DM Mono, Fraunces) usados no PDF
 ```
 
 ## Desenvolvimento
@@ -72,15 +85,26 @@ Gerado dinamicamente em `/cv?lang=pt|en` via `@react-pdf/renderer`. Lê
 `lib/data/{projects,timeline,stack}` e i18n direto, então o PDF nunca
 desincroniza do site. Sem arquivo estático em `/public/cv.pdf`.
 
-## Assets opcionais
-
-- `public/favicon.ico` — já existe um padrão do Next.
+As fontes do PDF são lidas de `public/fonts/*.ttf`, não baixadas em runtime:
+as URLs do `fonts.gstatic.com` são versionadas (`/v15/`, `/v36/`) e o Google
+as rotaciona, o que já derrubou a rota inteira com 500.
 
 ## Variáveis de ambiente
 
-| Var                      | Default                    | Uso                                      |
-| ------------------------ | -------------------------- | ---------------------------------------- |
-| `NEXT_PUBLIC_BASE_URL`   | `https://marceloaguiar.dev` | URL absoluta usada em OG, JSON-LD, sitemap |
+Todas são **opcionais** — o site roda inteiro sem nenhuma delas. Veja
+`.env.example`.
+
+| Var                     | Default                     | Uso                                          |
+| ----------------------- | --------------------------- | -------------------------------------------- |
+| `NEXT_PUBLIC_BASE_URL`  | `https://marceloaguiar.dev` | URL absoluta usada em OG, JSON-LD, sitemap   |
+| `GITHUB_TOKEN`          | —                           | Sobe o rate limit dos stats e do feed `/now` |
+| `RESEND_API_KEY`        | —                           | Entrega o formulário por email (Resend)      |
+| `CONTACT_TO`            | `marceloaugustocge@gmail.com` | Destinatário do formulário                 |
+| `CONTACT_FROM`          | `Portfolio <onboarding@resend.dev>` | Remetente no Resend                |
+| `CONTACT_WEBHOOK_URL`   | —                           | Alternativa ao Resend: POST do payload em JSON |
+
+Sem `RESEND_API_KEY` nem `CONTACT_WEBHOOK_URL`, `/api/contact` responde 501 e o
+formulário cai para um `mailto:` prefilled no cliente de email do visitante.
 
 ## i18n
 
@@ -107,7 +131,8 @@ Para adicionar uma chave de tradução:
 
 - `useInView` usa **um** `IntersectionObserver` compartilhado por (threshold,
   rootMargin) — todos os reveals dividem o mesmo observer.
-- OG images são geradas no edge (`runtime = "edge"`).
+- OG images são pré-renderizadas no build (runtime Node, sem `runtime = "edge"`,
+  que desabilitaria a geração estática e renderizaria a cada request).
 - A maioria das seções é client-component porque depende do toggle de idioma.
   Movimentar pra server seria possível só com locale por URL (`/pt/...`,
   `/en/...`), o que é um refactor maior.

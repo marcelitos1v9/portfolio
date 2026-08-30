@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { stackData, type StackItem, type StackCategory } from "@/lib/data/stack"
 import { useLanguage } from "@/contexts/LanguageContext"
@@ -14,11 +14,18 @@ function normalize(s: string) {
     .replace(/\p{Diacritic}/gu, "")
 }
 
+/** Most tech names read the same in both languages; `name_en` covers the few
+ *  that don't (e.g. "dbt (conceitos)"). */
+function displayName(item: StackItem, lang: string) {
+  return lang === "en" ? (item.name_en ?? item.name) : item.name
+}
+
 function matches(item: StackItem, q: string) {
   if (!q) return true
   const needle = normalize(q)
   return (
     normalize(item.name).includes(needle) ||
+    (item.name_en ? normalize(item.name_en).includes(needle) : false) ||
     normalize(item.description).includes(needle) ||
     normalize(item.description_en).includes(needle) ||
     normalize(item.context).includes(needle) ||
@@ -45,15 +52,15 @@ export default function StackExplorer() {
     [filtered]
   )
 
-  // If the user filters down and the active item disappears, switch to the
-  // first visible item so the detail panel never goes blank.
-  useEffect(() => {
-    if (!filtered.length) return
+  // If the user filters down and the selected item disappears, fall back to
+  // the first visible one so the detail panel never goes blank. Derived rather
+  // than corrected from an effect: there is no frame where the panel shows a
+  // stale item, and no cascading render on every keystroke.
+  const activeItem = useMemo(() => {
     const allVisible = filtered.flatMap((c) => c.items)
-    if (!allVisible.find((i) => i.name === active.name)) {
-      setActive(allVisible[0])
-    }
-  }, [filtered, active.name])
+    if (!allVisible.length) return active
+    return allVisible.some((i) => i.name === active.name) ? active : allVisible[0]
+  }, [filtered, active])
 
   const handleSelect = (item: StackItem) => {
     setActive(item)
@@ -209,7 +216,7 @@ export default function StackExplorer() {
               <CategoryGroup
                 key={cat.category}
                 category={cat}
-                active={active}
+                active={activeItem}
                 onSelect={handleSelect}
                 lang={lang}
                 query={query}
@@ -236,14 +243,14 @@ export default function StackExplorer() {
         >
           <AnimatePresence mode="wait">
             <motion.div
-              key={`${active.name}-${lang}`}
+              key={`${activeItem.name}-${lang}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               style={{ height: "100%" }}
             >
-              <DetailPanel item={active} onBack={() => setMobileView("list")} lang={lang} t={t} />
+              <DetailPanel item={activeItem} onBack={() => setMobileView("list")} lang={lang} t={t} />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -370,7 +377,7 @@ function CategoryGroup({
                     }}
                   />
                 )}
-                {highlight(item.name, query)}
+                {highlight(displayName(item, lang), query)}
               </button>
             </li>
           )
@@ -449,7 +456,7 @@ function DetailPanel({
           marginBottom: "1.5rem",
         }}
       >
-        {item.name}
+        {displayName(item, lang)}
       </h2>
 
       <p

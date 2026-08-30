@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next"
 import { Fraunces, DM_Mono, DM_Sans } from "next/font/google"
 import "./globals.css"
+// Lenis' own stylesheet. Without it `lenis.stop()` is a no-op for the
+// native scrollbar, so the page kept scrolling behind the open command
+// palette and mobile menu; it also supplies `[data-lenis-prevent]`.
+import "lenis/dist/lenis.css"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import LenisProvider from "@/components/ui/LenisProvider"
@@ -111,12 +115,10 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }}
         />
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(projects) }}
         />
       </head>

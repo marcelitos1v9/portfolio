@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useInView } from "@/hooks/useInView"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 // Medallion tier accent — the color literally tells the raw→bronze→silver→gold
 // story as data flows down the pipeline.
@@ -17,15 +17,9 @@ const TIER = {
 export default function Expertise() {
   const { ref: titleRef, isVisible: titleVisible } = useInView()
   const { t } = useLanguage()
-  const [reduced, setReduced] = useState(true)
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setReduced(mq.matches)
-    const onChange = () => setReduced(mq.matches)
-    mq.addEventListener("change", onChange)
-    return () => mq.removeEventListener("change", onChange)
-  }, [])
+  // Assume reduced motion until the client says otherwise, so the animation
+  // never flashes for someone who asked for none.
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)", true)
 
   const stages = [
     { step: "01", label: t.expertise_ingestion, techs: ["Pub/Sub", "Cloud Run", "CDC"], tier: TIER.raw },

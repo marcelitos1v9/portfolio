@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { STEPS, type Step, type StepKey } from "./pipeline"
 import SqlEditor from "./SqlEditor"
+import { toDisplayRows, type Row } from "./rows"
 
 // Async-only types — runtime is dynamically imported so the ~5MB SDK is
 // code-split out of the main bundle.
@@ -13,8 +14,6 @@ type AsyncDuckDBConnection = import("@duckdb/duckdb-wasm").AsyncDuckDBConnection
 
 type DbStatus = "idle" | "loading" | "ready" | "error"
 type StepStatus = "idle" | "running" | "done" | "error"
-
-type Row = Record<string, unknown>
 
 /**
  * Initializes DuckDB-WASM from the jsDelivr CDN bundle (no bundler config
@@ -42,16 +41,7 @@ async function initDuckDB(): Promise<AsyncDuckDB> {
 
 async function runQuery(conn: AsyncDuckDBConnection, sql: string): Promise<Row[]> {
   const result = await conn.query(sql)
-  return result.toArray().map((r) => {
-    const obj = r.toJSON() as Record<string, unknown>
-    // Apache Arrow returns BigInt / Date instances — stringify for display.
-    for (const k of Object.keys(obj)) {
-      const v = obj[k]
-      if (typeof v === "bigint") obj[k] = Number(v)
-      else if (v instanceof Date) obj[k] = v.toISOString()
-    }
-    return obj
-  })
+  return toDisplayRows(result)
 }
 
 export default function PlaygroundClient() {
